@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorties index{% endblock %}
+
+{% block body %}
+    <h1>Sorties index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NoSortie</th>
+                <th>Nom</th>
+                <th>DateDebut</th>
+                <th>Duree</th>
+                <th>DateCloture</th>
+                <th>NbInscriptionsMax</th>
+                <th>DescriptionInfos</th>
+                <th>EtatSortie</th>
+                <th>UrlPhoto</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sorty in sorties %}
+            <tr>
+                <td>{{ sorty.id }}</td>
+                <td>{{ sorty.NoSortie }}</td>
+                <td>{{ sorty.nom }}</td>
+                <td>{{ sorty.dateDebut ? sorty.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorty.duree }}</td>
+                <td>{{ sorty.dateCloture ? sorty.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorty.nbInscriptionsMax }}</td>
+                <td>{{ sorty.descriptionInfos }}</td>
+                <td>{{ sorty.etatSortie }}</td>
+                <td>{{ sorty.urlPhoto }}</td>
+                <td>
+                    <a href="{{ path('app_sorties_show', {'id': sorty.id}) }}">show</a>
+                    <a href="{{ path('app_sorties_edit', {'id': sorty.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sorties_new') }}">Create new</a>
+{% endblock %}
