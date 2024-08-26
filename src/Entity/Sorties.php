@@ -41,6 +41,10 @@ class Sorties
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $urlPhoto = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etats $Etat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +154,18 @@ class Sorties
     public function setUrlPhoto(?string $urlPhoto): static
     {
         $this->urlPhoto = $urlPhoto;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etats
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(?Etats $Etat): static
+    {
+        $this->Etat = $Etat;
 
         return $this;
     }
