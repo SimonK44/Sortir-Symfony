@@ -35,6 +35,7 @@ class Lieux
         return $this->id;
     }
 
+
     public function getNomLieu(): ?string
     {
         return $this->nomLieu;
