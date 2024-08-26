@@ -15,10 +15,7 @@ class Etats
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $noEtat = null;
-
-    #[ORM\Column(length: 30)]
+     #[ORM\Column(length: 30)]
     private ?string $libelle = null;
 
     /**
@@ -35,18 +32,6 @@ class Etats
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNoEtat(): ?int
-    {
-        return $this->noEtat;
-    }
-
-    public function setNoEtat(int $noEtat): static
-    {
-        $this->noEtat = $noEtat;
-
-        return $this;
     }
 
     public function getLibelle(): ?string
