@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>NoSite</th>
                 <th>NomSite</th>
                 <th>actions</th>
             </tr>
@@ -18,7 +17,6 @@
         {% for site in sites %}
             <tr>
                 <td>{{ site.id }}</td>
-                <td>{{ site.noSite }}</td>
                 <td>{{ site.nomSite }}</td>
                 <td>
                     <a href="{{ path('app_sites_show', {'id': site.id}) }}">show</a>

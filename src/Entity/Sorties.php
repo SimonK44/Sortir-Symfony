@@ -14,9 +14,6 @@ class Sorties
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $NoSortie = null;
-
     #[ORM\Column(length: 30)]
     private ?string $nom = null;
 
@@ -45,21 +42,13 @@ class Sorties
     #[ORM\JoinColumn(nullable: false)]
     private ?Etats $Etat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Participants $organisateur = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNoSortie(): ?int
-    {
-        return $this->NoSortie;
-    }
-
-    public function setNoSortie(int $NoSortie): static
-    {
-        $this->NoSortie = $NoSortie;
-
-        return $this;
     }
 
     public function getNom(): ?string
@@ -154,6 +143,18 @@ class Sorties
     public function setUrlPhoto(?string $urlPhoto): static
     {
         $this->urlPhoto = $urlPhoto;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participants
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participants $organisateur): static
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }

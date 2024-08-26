@@ -12,7 +12,6 @@ class SitesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('noSite')
             ->add('nomSite')
         ;
     }

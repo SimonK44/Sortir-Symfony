@@ -3,9 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantsRepository::class)]
+#[UniqueEntity(fields: ['pseudo', 'mail'])]
 class Participants
 {
     #[ORM\Id]
@@ -13,25 +18,27 @@ class Participants
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $noParticipant = null;
-
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, unique: true)]
+    #[Assert\NotBlank]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, unique: true)]
+    #[Assert\NotBlank]
     private ?string $mail = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $motDePasse = null;
 
     #[ORM\Column]
@@ -40,21 +47,20 @@ class Participants
     #[ORM\Column]
     private ?bool $actif = null;
 
+    /**
+     * @var Collection<int, Sorties>
+     */
+    #[ORM\OneToMany(targetEntity: Sorties::class, mappedBy: 'organisateur')]
+    private Collection $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNoParticipant(): ?int
-    {
-        return $this->noParticipant;
-    }
-
-    public function setNoParticipant(int $noParticipant): static
-    {
-        $this->noParticipant = $noParticipant;
-
-        return $this;
     }
 
     public function getPseudo(): ?string
@@ -149,6 +155,36 @@ class Participants
     public function setActif(bool $actif): static
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sorties>
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sorties $sorty): static
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties->add($sorty);
+            $sorty->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sorties $sorty): static
+    {
+        if ($this->sorties->removeElement($sorty)) {
+            // set the owning side to null (unless already changed)
+            if ($sorty->getOrganisateur() === $this) {
+                $sorty->setOrganisateur(null);
+            }
+        }
 
         return $this;
     }

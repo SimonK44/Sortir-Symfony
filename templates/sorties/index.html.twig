@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>NoSortie</th>
                 <th>Nom</th>
                 <th>DateDebut</th>
                 <th>Duree</th>
@@ -25,7 +24,6 @@
         {% for sorty in sorties %}
             <tr>
                 <td>{{ sorty.id }}</td>
-                <td>{{ sorty.NoSortie }}</td>
                 <td>{{ sorty.nom }}</td>
                 <td>{{ sorty.dateDebut ? sorty.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.duree }}</td>
