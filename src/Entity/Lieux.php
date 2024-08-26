@@ -13,8 +13,6 @@ class Lieux
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $noLieu = null;
 
     #[ORM\Column(length: 30)]
     private ?string $nomLieu = null;
@@ -35,18 +33,6 @@ class Lieux
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNoLieu(): ?int
-    {
-        return $this->noLieu;
-    }
-
-    public function setNoLieu(int $noLieu): static
-    {
-        $this->noLieu = $noLieu;
-
-        return $this;
     }
 
     public function getNomLieu(): ?string
