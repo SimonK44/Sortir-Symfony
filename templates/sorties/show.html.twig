@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorties{% endblock %}
+
+{% block body %}
+    <h1>Sorties</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sorty.id }}</td>
+            </tr>
+            <tr>
+                <th>NoSortie</th>
+                <td>{{ sorty.NoSortie }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sorty.nom }}</td>
+            </tr>
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ sorty.dateDebut ? sorty.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ sorty.duree }}</td>
+            </tr>
+            <tr>
+                <th>DateCloture</th>
+                <td>{{ sorty.dateCloture ? sorty.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbInscriptionsMax</th>
+                <td>{{ sorty.nbInscriptionsMax }}</td>
+            </tr>
+            <tr>
+                <th>DescriptionInfos</th>
+                <td>{{ sorty.descriptionInfos }}</td>
+            </tr>
+            <tr>
+                <th>EtatSortie</th>
+                <td>{{ sorty.etatSortie }}</td>
+            </tr>
+            <tr>
+                <th>UrlPhoto</th>
+                <td>{{ sorty.urlPhoto }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sorties_index') }}">back to list</a>
+
+    <a href="{{ path('app_sorties_edit', {'id': sorty.id}) }}">edit</a>
+
+    {{ include('sorties/_delete_form.html.twig') }}
+{% endblock %}
