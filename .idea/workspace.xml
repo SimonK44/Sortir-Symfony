@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcc8dc24-a827-4e3a-8302-850765640b79" name="Changes" comment="Relation ManyToOne Lieux+Ville">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fcc8dc24-a827-4e3a-8302-850765640b79" name="Changes" comment="Relation ManyToOne entre Sortie et etat + un peu Lieux ville">
+      <change beforePath="$PROJECT_DIR$/templates/etats/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/etats/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -48,6 +48,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -66,13 +71,13 @@
       <updated>1724668119861</updated>
       <workItem from="1724668120961" duration="2488000" />
     </task>
-    <task id="LOCAL-00001" summary="Relation ManyToOne Lieux+Ville">
+    <task id="LOCAL-00001" summary="Relation ManyToOne entre Sortie et etat + un peu Lieux ville">
       <option name="closed" value="true" />
-      <created>1724681774288</created>
+      <created>1724681963085</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1724681774288</updated>
+      <updated>1724681963085</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -82,8 +87,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <MESSAGE value="Relation ManyToOne Lieux+Ville" />
-    <option name="LAST_COMMIT_MESSAGE" value="Relation ManyToOne Lieux+Ville" />
+    <MESSAGE value="Relation ManyToOne entre Sortie et etat + un peu Lieux ville" />
+    <option name="LAST_COMMIT_MESSAGE" value="Relation ManyToOne entre Sortie et etat + un peu Lieux ville" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
