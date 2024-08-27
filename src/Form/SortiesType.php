@@ -51,6 +51,14 @@ class SortiesType extends AbstractType
                 }
             ])
             ->add('urlPhoto')
+            ->add('participants', EntityType::class,options: [
+                'class' => Participants::class,
+                'choice_label' => 'pseudo',
+                'query_builder' => function (ParticipantsRepository $participantsRepository) {
+                    return $participantsRepository->createQueryBuilder('p')->orderBy('p.pseudo', 'ASC');
+                },
+                'multiple' => true,
+            ])
         ;
     }
 

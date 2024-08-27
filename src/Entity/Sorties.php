@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,13 +44,24 @@ class Sorties
     #[ORM\JoinColumn(nullable: false)]
     private ?Etats $Etat = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\ManyToOne(inversedBy: 'sortiesOrganisees')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Participants $organisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieux $lieux = null;
+
+    /**
+     * @var Collection<int, Participants>
+     */
+    #[ORM\ManyToMany(targetEntity: Participants::class, mappedBy: 'sortiesInscrites')]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -183,6 +196,33 @@ class Sorties
     public function setLieux(?Lieux $lieux): static
     {
         $this->lieux = $lieux;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participants>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participants $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->addInscript($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participants $participant): static
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeInscript($this);
+        }
 
         return $this;
     }
