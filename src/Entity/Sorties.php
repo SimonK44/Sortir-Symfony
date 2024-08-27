@@ -46,6 +46,10 @@ class Sorties
     #[ORM\JoinColumn(nullable: false)]
     private ?Participants $organisateur = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lieux $lieux = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +171,18 @@ class Sorties
     public function setEtat(?Etats $Etat): static
     {
         $this->Etat = $Etat;
+
+        return $this;
+    }
+
+    public function getLieux(): ?Lieux
+    {
+        return $this->lieux;
+    }
+
+    public function setLieux(?Lieux $lieux): static
+    {
+        $this->lieux = $lieux;
 
         return $this;
     }
