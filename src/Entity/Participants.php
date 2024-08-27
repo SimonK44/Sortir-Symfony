@@ -51,11 +51,18 @@ class Participants
      * @var Collection<int, Sorties>
      */
     #[ORM\OneToMany(targetEntity: Sorties::class, mappedBy: 'organisateur')]
-    private Collection $sorties;
+    private Collection $sortiesOrganisees;
+
+    /**
+     * @var Collection<int, Sorties>
+     */
+    #[ORM\ManyToMany(targetEntity: Sorties::class, inversedBy: 'participants')]
+    private Collection $sortiesInscrites;
 
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+        $this->sortiesOrganisees = new ArrayCollection();
+        $this->sortiesInscrites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,29 +169,53 @@ class Participants
     /**
      * @return Collection<int, Sorties>
      */
-    public function getSorties(): Collection
+    public function getSortiesOrganisees(): Collection
     {
-        return $this->sorties;
+        return $this->sortiesOrganisees;
     }
 
-    public function addSortie (Sorties $sortie): static
+    public function addSorty(Sorties $sorty): static
     {
-        if (!$this->sorties->contains($sortie)) {
-            $this->sorties->add($sortie);
-            $sortie->setOrganisateur($this);
+        if (!$this->sortiesOrganisees->contains($sorty)) {
+            $this->sortiesOrganisees->add($sorty);
+            $sorty->setOrganisateur($this);
         }
 
         return $this;
     }
 
-    public function removeSortie(Sorties $sortie): static
+    public function removeSorty(Sorties $sorty): static
     {
-        if ($this->sorties->removeElement($sortie)) {
+        if ($this->sortiesOrganisees->removeElement($sorty)) {
             // set the owning side to null (unless already changed)
-            if ($sortie->getOrganisateur() === $this) {
-                $sortie->setOrganisateur(null);
+            if ($sorty->getOrganisateur() === $this) {
+                $sorty->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sorties>
+     */
+    public function getSortiesInscrites(): Collection
+    {
+        return $this->sortiesInscrites;
+    }
+
+    public function addInscript(Sorties $sortiesInscrites): static
+    {
+        if (!$this->sortiesInscrites->contains($sortiesInscrites)) {
+            $this->sortiesInscrites->add($sortiesInscrites);
+        }
+
+        return $this;
+    }
+
+    public function removeInscript(Sorties $sortiesInscrites): static
+    {
+        $this->sortiesInscrites->removeElement($sortiesInscrites);
 
         return $this;
     }
