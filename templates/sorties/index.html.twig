@@ -21,20 +21,20 @@
             </tr>
         </thead>
         <tbody>
-        {% for sorty in sorties %}
+        {% for sortie in sorties %}
             <tr>
-                <td>{{ sorty.id }}</td>
-                <td>{{ sorty.nom }}</td>
-                <td>{{ sorty.dateDebut ? sorty.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorty.duree }}</td>
-                <td>{{ sorty.dateCloture ? sorty.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorty.nbInscriptionsMax }}</td>
-                <td>{{ sorty.descriptionInfos }}</td>
-                <td>{{ sorty.etatSortie }}</td>
-                <td>{{ sorty.urlPhoto }}</td>
+                <td>{{ sortie.id }}</td>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateDebut ? sortie.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.descriptionInfos }}</td>
+                <td>{{ sortie.etatSortie }}</td>
+                <td>{{ sortie.urlPhoto }}</td>
                 <td>
-                    <a href="{{ path('app_sorties_show', {'id': sorty.id}) }}">show</a>
-                    <a href="{{ path('app_sorties_edit', {'id': sorty.id}) }}">edit</a>
+                    <a href="{{ path('app_sorties_show', {'id': sortie.id}) }}">show</a>
+                    <a href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

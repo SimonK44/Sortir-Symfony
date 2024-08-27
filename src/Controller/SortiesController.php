@@ -25,35 +25,36 @@ class SortiesController extends AbstractController
     #[Route('/new', name: 'app_sorties_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $sorty = new Sorties();
-        $form = $this->createForm(SortiesType::class, $sorty);
+        $sortie = new Sorties();
+        $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($sorty);
+            $entityManager->persist($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('sorties/new.html.twig', [
-            'sorty' => $sorty,
+            'sortie' => $sortie,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_sorties_show', methods: ['GET'])]
-    public function show(Sorties $sorty): Response
+    public function show(Sorties $sortie): Response
     {
         return $this->render('sorties/show.html.twig', [
-            'sorty' => $sorty,
+            'sortie' => $sortie,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_sorties_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sorties $sortie, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(SortiesType::class, $sorty);
+        $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,16 +64,16 @@ class SortiesController extends AbstractController
         }
 
         return $this->render('sorties/edit.html.twig', [
-            'sorty' => $sorty,
+            'sortie' => $sortie,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_sorties_delete', methods: ['POST'])]
-    public function delete(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Sorties $sortie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sorty->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($sorty);
+        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($sortie);
             $entityManager->flush();
         }
 
