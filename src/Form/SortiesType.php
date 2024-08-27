@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Etats;
+use App\Entity\Lieux;
 use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Repository\EtatsRepository;
+use App\Repository\LieuxRepository;
 use App\Repository\ParticipantsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -32,6 +34,13 @@ class SortiesType extends AbstractType
                 'choice_label' => 'libelle',
                 'query_builder' => function (EtatsRepository $EtatRepository) {
                     return $EtatRepository->createQueryBuilder('e')->orderBy('e.libelle', 'ASC');
+                }
+            ])
+            ->add('lieux', EntityType::class, [
+                'class' => Lieux::class,
+                'choice_label' => 'Lieux',
+                'query_builder' => function (LieuxRepository $LieuxRepository) {
+                    return $LieuxRepository->createQueryBuilder('l')->orderBy('l.nomLieu', 'ASC');
                 }
             ])
             ->add('organisateur', EntityType::class, [
