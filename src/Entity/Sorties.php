@@ -47,24 +47,26 @@ class Sorties
     #[ORM\JoinColumn(nullable: false)]
     private ?Etats $Etat = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sortiesOrganisees')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Participants $organisateur = null;
-
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieux $lieux = null;
 
+    #[ORM\ManyToOne(inversedBy: 'organisateur')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     /**
-     * @var Collection<int, Participants>
+     * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: Participants::class, mappedBy: 'sortiesInscrites')]
-    private Collection $participants;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sortieInscrites')]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
+
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
@@ -183,18 +185,6 @@ class Sorties
         return $this;
     }
 
-    public function getOrganisateur(): ?Participants
-    {
-        return $this->organisateur;
-    }
-
-    public function setOrganisateur(?Participants $organisateur): static
-    {
-        $this->organisateur = $organisateur;
-
-        return $this;
-    }
-
     public function getEtat(): ?Etats
     {
         return $this->Etat;
@@ -231,30 +221,43 @@ class Sorties
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     /**
-     * @return Collection<int, Participants>
+     * @return Collection<int, User>
      */
-    public function getParticipants(): Collection
+    public function getUsers(): Collection
     {
-        return $this->participants;
+        return $this->users;
     }
 
-    public function addParticipant(Participants $participant): static
+    public function addUser(User $user): static
     {
-        if (!$this->participants->contains($participant)) {
-            $this->participants->add($participant);
-            $participant->addInscript($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addSortieInscrite($this);
         }
 
         return $this;
     }
 
-    public function removeParticipant(Participants $participant): static
+    public function removeUser(User $user): static
     {
-        if ($this->participants->removeElement($participant)) {
-            $participant->removeInscript($this);
+        if ($this->users->removeElement($user)) {
+            $user->removeSortieInscrite($this);
         }
 
         return $this;
     }
+
 }
