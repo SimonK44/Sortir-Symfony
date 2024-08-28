@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sorties;
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
+use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,12 +53,14 @@ class SortiesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sorties_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sorties $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sorties $sortie, EntityManagerInterface $entityManager,
+                         SortieService $sortieService): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortieService->changementEtat($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
