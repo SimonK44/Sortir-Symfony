@@ -40,6 +40,9 @@ class Sorties
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $urlPhoto = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $isPublished = null;
+
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etats $Etat = null;
@@ -128,6 +131,18 @@ class Sorties
     public function setNbInscriptionsMax(int $nbInscriptionsMax): static
     {
         $this->nbInscriptionsMax = $nbInscriptionsMax;
+
+        return $this;
+    }
+
+    public function isPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setPublished(?bool $isPublished): static
+    {
+        $this->isPublished = $isPublished;
 
         return $this;
     }
