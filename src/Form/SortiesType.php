@@ -19,19 +19,31 @@ class SortiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('dateDebut', null, [
-                'widget' => 'single_text'
+            ->add('nom',null,[
+                'row_attr' =>[
+                      'class'=>'input-group mb-3' ]
             ])
-            ->add('duree')
+            ->add('dateDebut', null, [
+                'widget' => 'single_text',
+                'row_attr' =>[
+                     'class'=>'input-group mb-3' ]
+            ])
+            ->add('duree',null,[
+                'row_attr' =>[
+                     'class'=>'input-group mb-3' ]
+            ])
             ->add('dateCloture', null, [
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'row_attr' =>[
+                    'class'=>'input-group mb-3' ]
             ])
             ->add('nbInscriptionsMax')
             ->add('descriptionInfos')
             ->add('etat', EntityType::class, [
                 'class' => Etats::class,
                 'choice_label' => 'libelle',
+                'row_attr' =>[
+                    'class'=>'input-group mb-3' ],
                 'query_builder' => function (EtatsRepository $EtatRepository) {
                     return $EtatRepository->createQueryBuilder('e')->orderBy('e.libelle', 'ASC');
                 }
@@ -39,6 +51,8 @@ class SortiesType extends AbstractType
             ->add('lieux', EntityType::class, [
                 'class' => Lieux::class,
                 'choice_label' => 'Lieux',
+                'row_attr' =>[
+                    'class'=>'input-group mb-3' ],
                 'query_builder' => function (LieuxRepository $LieuxRepository) {
                     return $LieuxRepository->createQueryBuilder('l')->orderBy('l.nomLieu', 'ASC');
                 }
@@ -46,6 +60,8 @@ class SortiesType extends AbstractType
             ->add('organisateur', EntityType::class, [
                 'class' => Participants::class,
                 'choice_label' => 'nom',
+                'row_attr' =>[
+                    'class'=>'input-group mb-3' ],
                 'query_builder' => function (ParticipantsRepository $ParticipantsRepository) {
                 return $ParticipantsRepository->createQueryBuilder('p')->orderBy('p.nom', 'ASC');
                 }
@@ -54,6 +70,8 @@ class SortiesType extends AbstractType
             ->add('participants', EntityType::class,options: [
                 'class' => Participants::class,
                 'choice_label' => 'pseudo',
+                'row_attr' =>[
+                    'class'=>'input-group mb-3' ],
                 'query_builder' => function (ParticipantsRepository $participantsRepository) {
                     return $participantsRepository->createQueryBuilder('p')->orderBy('p.pseudo', 'ASC');
                 },
