@@ -32,8 +32,8 @@
                 <td>{{ sortie.descriptionInfos }}</td>
                 <td>{{ sortie.etatSortie }}</td>
                 <td>
-                    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">MAJ sortie</a>
-                    <a class="btn btn-outline-danger btn-sm" href="{{ path('app_sorties_delete', {'id': sortie.id}) }}">&#x1F5D1;</a>
+                    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">MAJ </a>
+                    {{ include('sorties/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -44,5 +44,5 @@
         </tbody>
     </table>
 
-    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_new') }}">Creation sortie</a>
+    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_new') }}">Ajout</a>
 {% endblock %}
