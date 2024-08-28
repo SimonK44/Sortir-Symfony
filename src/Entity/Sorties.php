@@ -63,6 +63,10 @@ class Sorties
         $this->participants = new ArrayCollection();
     }
 
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Sites $site = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -184,6 +188,18 @@ class Sorties
     public function setEtat(?Etats $Etat): static
     {
         $this->Etat = $Etat;
+
+        return $this;
+    }
+
+    public function getSite(): ?Sites
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Sites $site): static
+    {
+        $this->site = $site;
 
         return $this;
     }
