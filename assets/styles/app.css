@@ -17,8 +17,6 @@ nav {
     height: 50px;
 }
 
-
-
 .container {
     max-width: 1200px;
     margin: auto;
@@ -55,7 +53,6 @@ body > .container {
     flex-direction: column;
     min-height: 100vh;
 
-
 }
 
 header img {
@@ -68,7 +65,7 @@ main {
 
 nav div {
     display: flex;
-    Align-content:center
+    Align-content:center;
     height: 50px;
     align-items:center;
     margin-top:60px;
@@ -94,6 +91,11 @@ nav li {
     top: 20px; left:30px;
     width : 150px;
     height : 150px;
+}
+
+
+.table td {
+    text-align: center;
 }
 
 .divblue {
