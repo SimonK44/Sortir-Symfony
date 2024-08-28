@@ -1,17 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sortir.com{% endblock %}</title>
+    <link rel="icon" href="{{  asset('images/sortirFavicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {% block stylesheets %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+
+
+    <div>
+        <img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}">
+    <nav>
+
+             <ul>
+                <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
+                <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
+                <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
+{#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
+                 <li style="padding:5px;"><a href="{{ path('app_participants_index') }}">Mon Profil</a></li>
+{#               <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>#}
+            </ul>
+
+    </nav>
+    </div>
+    <div class="divblue"></div>
+
+<br>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class = "alert alert-{{ label }}">{{ message }}</div>
+    {% endfor %}
+{% endfor %}
+
+{% block body %}{% endblock %}
+</body>
 </html>
