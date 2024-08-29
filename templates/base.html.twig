@@ -9,29 +9,33 @@
     {% block stylesheets %}
     {% endblock %}
 
-{#    {% block javascripts %}#}
-{#        {% block importmap %}{{ importmap('app') }}{% endblock %}#}
-{#    {% endblock %}#}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </head>
 <body>
 
 
-<div>
-    <img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}">
+    <div>
+        <img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}">
     <nav>
 
-        <ul>
-            <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
-            <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
-            <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
-            {#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
-            <li style="padding:5px;"><a href="{{ path('_profiler_home') }}">Mon Profil</a></li>
-            {#               <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>#}
-        </ul>
+             <ul>
+                 {% if is_granted('IS_AUTHENTICATED') %}
+                 <li>Bonjour {{ app.user.userIdentifier }}</li>
+                 {% endif %}
+
+                <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
+                <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
+                <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
+{#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
+                 <li style="padding:5px;"><a href="{{ path('_profiler_home') }}">Mon Profil</a></li>
+{#               <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>#}
+            </ul>
 
     </nav>
-</div>
-<div class="divblue"></div>
+    </div>
+    <div class="divblue"></div>
 
 <br>
 {% for label, messages in app.flashes %}

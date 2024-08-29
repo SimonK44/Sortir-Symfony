@@ -4,19 +4,19 @@ namespace App\Form;
 
 use App\Entity\Sites;
 use App\Entity\User;
-use App\Repository\LieuxRepository;
 use App\Repository\SitesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use function Symfony\Bridge\Twig\Extension\twig_is_selected_choice;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class RegistrationFormType extends AbstractType
 {
@@ -36,6 +36,9 @@ class RegistrationFormType extends AbstractType
                     return $sitesRepository->createQueryBuilder('s')->orderBy('s.nomSite', 'ASC');
                 }
             ])
+            ->add('actif', HiddenType::class, [
+                'data' => '1', // Valeur par défaut
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -44,24 +47,34 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                'type'=> PasswordType::class,
+                'options' => [
+                    'attr' => ['autocomplete' => 'new-password'],
                 ],
+                'invalid_message' => 'les mots de passe ne correspondent pas',
+                'first_options' =>[
+                    'label'=> 'Mot de Passe',
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please enter a password',
+                        ]),
+                        new PasswordStrength([
+                            'minScore'=> 1,
+                            'message'=>'trop faible votre mdp',
+                        ]),
+                    ],
+                ],
+                'second_options' => [
+                    'label'=>'Confirmez votre Mot de Passe',
+                    'invalid_message' => 'Les mdp ne correspondent pas'
+                ]
             ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
