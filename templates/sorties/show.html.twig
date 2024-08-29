@@ -46,6 +46,10 @@
         </tbody>
     </table>
 
+    {% for user in sortie.users.par %}
+        <li>{{ user.nom }} : {{ user.prenom }} </li>
+    {% endfor %}
+
     <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_index') }}">Retour à la list</a>
     <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">Modification</a>
    <br>
