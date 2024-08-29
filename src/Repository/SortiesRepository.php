@@ -16,6 +16,21 @@ class SortiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sorties::class);
     }
 
+    public function DeleteUserSortie(int $idSortie, int $idUser): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'DELETE FROM user_sorties WHERE sorties_id = :idSortie AND user_id = :idUser';
+
+
+        $resultSet = $conn->executeQuery($sql, ['idSortie' => $idSortie, 'idUser' => $idUser]);
+
+
+    }
+
+
+
+
     //    /**
     //     * @return Sorties[] Returns an array of Sorties objects
     //     */
