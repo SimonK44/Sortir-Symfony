@@ -115,15 +115,16 @@
                 <tbody>
                 {% for user in sortie.users %}
                     <tr>
+                        <input  type="hidden" id="id" name="id" value={{ user.id }} disabled/>
                         <td class="text-sm-start col-md-5">{{ user.pseudo }}</td>
                         <td class=" text-sm-start col-md-5">{{ user.nom }} {{ user.prenom }}</td>
-                        <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-danger" href="{{ path('app_sorties_index') }}">&#x1F5D1;</a></td>
+                        <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-danger" href="{{ path('_desincription',{'idSortie' :sortie.id,'idUser':user.id})}}">&#x1F5D1;</a></td>
                     </tr>
                 {% endfor %}
                 <tr>
                     <td class="text-sm-start col-md-5"></td>
                     <td class=" text-sm-start col-md-5"></td>
-                    <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-info" href="{{ path('app_sorties_index') }}">s'inscire</a></td>
+                    <!--td class=" text-sm-start col-md-5"> <a class="btn btn-outline-info" href="{{ path('_incription', {'idSortie' : sortie.id})}}">s'inscrire</a></td-->
                 </tr>
                 </tbody>
             </table>
