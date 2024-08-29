@@ -2,15 +2,21 @@
 
 namespace App\Form;
 
+use App\Entity\Sites;
 use App\Entity\User;
+use App\Repository\LieuxRepository;
+use App\Repository\SitesRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use function Symfony\Bridge\Twig\Extension\twig_is_selected_choice;
 
 class RegistrationFormType extends AbstractType
 {
@@ -22,6 +28,14 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
+            ->add('site', EntityType::class, [
+                'class' => Sites::class,
+                'choice_label' => 'nomSite',
+                'placeholder' => ' -- Choisir un site -- ',
+                'query_builder' => function (SitesRepository $sitesRepository) {
+                    return $sitesRepository->createQueryBuilder('s')->orderBy('s.nomSite', 'ASC');
+                }
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

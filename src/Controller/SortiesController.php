@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Form\SortiesType;
 use App\Repository\EtatsRepository;
@@ -32,6 +33,10 @@ class SortiesController extends AbstractController
         {
         $sortie = new Sorties();
         $sortie->setUser($this->getUser());
+
+//        $sortie->getUser()->g
+//        $sortie->setSite()
+
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
@@ -44,7 +49,7 @@ class SortiesController extends AbstractController
             $sortieService->etatOuverte($sortie);
 
             $entityManager->persist($sortie);
-            dd($sortie);
+//            dd($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
