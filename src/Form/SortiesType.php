@@ -4,12 +4,10 @@ namespace App\Form;
 
 use App\Entity\Etats;
 use App\Entity\Lieux;
-use App\Entity\Participants;
 use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Repository\EtatsRepository;
 use App\Repository\LieuxRepository;
-use App\Repository\ParticipantsRepository;
 use App\Repository\SitesRepository;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

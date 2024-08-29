@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\SortiesRepository;
+use App\Service\SortieService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SortiesRepository::class)]
+#[ORM\EntityListeners([SortieService::class])]
 class Sorties
 {
     #[ORM\Id]
@@ -64,9 +66,8 @@ class Sorties
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->isPublished = false;
     }
-
-
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
