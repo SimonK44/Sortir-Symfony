@@ -20,6 +20,7 @@ class SortiesController extends AbstractController
     #[Route('/', name: 'app_sorties_index', methods: ['GET'])]
     public function index(SortiesRepository $sortiesRepository, SortieService $sortieService): Response
     {
+
         $sortie = new Sorties();
         $sortieService->etatActiviteEnCours($sortie);
         $sortieService->etatActiviteTerminee($sortie);
@@ -32,24 +33,17 @@ class SortiesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
         {
         $sortie = new Sorties();
+
         $sortie->setUser($this->getUser());
 
-//        $sortie->getUser()->g
-//        $sortie->setSite()
+        $sortie->setSite($sortie->getUser()->getSite());
 
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $sortie->setPublished(true);
-
-            $sortieService->postLoad($sortie);
-            $sortieService->etatOuverte($sortie);
-
             $entityManager->persist($sortie);
-//            dd($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);

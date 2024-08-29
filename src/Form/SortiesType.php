@@ -14,9 +14,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -26,12 +29,12 @@ class SortiesType extends AbstractType
     {
         $builder
             ->add('nom', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Nom de la sortie : '])
-            ->add('dateDebut', DateType::class, [
+            ->add('dateDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie : ',
                 'widget' => 'single_text'
             ])
             ->add('duree', null,['label' => 'Durée : '])
-            ->add('dateCloture', DateType::class, [
+            ->add('dateCloture', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text'
             ])
@@ -47,8 +50,24 @@ class SortiesType extends AbstractType
                 }
             ])
             ->add('isPublished', CheckboxType::class,
-                ['required' => false, 'label' => 'Publier la sortie',
+                ['required' => false, 'label' => 'Publier la sortie'
             ]);
+
+        $builder
+            ->get('lieux')->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                function (FormEvent $event) {
+                    $form = $event->getForm();
+                    $lieu = $form->getData();
+
+                    if ($lieu) {
+                        $form->getParent()->add('ville', TextType::class, [
+                            'label' => 'Ville : ',
+                            'mapped' => false,
+                        ]);
+                    }
+                }
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

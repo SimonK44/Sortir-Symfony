@@ -66,7 +66,7 @@ class Sorties
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->isPublished = false;
+        $this->setIsPublished(false);
     }
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
@@ -138,12 +138,12 @@ class Sorties
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function getIsPublished(): ?bool
     {
         return $this->isPublished;
     }
 
-    public function setPublished(?bool $isPublished): static
+    public function setIsPublished(?bool $isPublished): static
     {
         $this->isPublished = $isPublished;
 

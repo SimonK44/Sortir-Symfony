@@ -13,7 +13,7 @@
                 <th>Nom</th>
                 <th>Debut de la sortie</th>
                 <th>Duree de la sortie</th>
-                <th>Date de fin de la sortie</th>
+                <th>Date limite d'inscription</th>
                 <th>Nombre maximum de participant</th>
                 <th>Description de la sortie</th>
                 <th>Etat de la sortie</th>
@@ -30,7 +30,7 @@
                 <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.descriptionInfos }}</td>
-                <td>{{ sortie.etatSortie }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
                 <td>
                     <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">MAJ </a>
                     {{ include('sorties/_delete_form.html.twig') }}
