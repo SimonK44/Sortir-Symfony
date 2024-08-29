@@ -103,5 +103,10 @@ nav li {
     height: 5px;
 }
 
+.tabledetail {
+    table-layout: auto;
+    width: 100%;
+}
+
 
 
