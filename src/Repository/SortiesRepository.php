@@ -16,6 +16,16 @@ class SortiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sorties::class);
     }
 
+    public function InsertUserSortie(int $idSortie, int $idUser): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'INSERT INTO `user_sorties` (`user_id`, `sorties_id`) VALUES (:idUser, :idSortie )';
+
+        $resultSet = $conn->executeQuery($sql, ['idSortie' => $idSortie, 'idUser' => $idUser]);
+
+    }
+
     public function DeleteUserSortie(int $idSortie, int $idUser): void
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -24,7 +34,6 @@ class SortiesRepository extends ServiceEntityRepository
 
 
         $resultSet = $conn->executeQuery($sql, ['idSortie' => $idSortie, 'idUser' => $idUser]);
-
 
     }
 

@@ -15,24 +15,30 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/inscri')]
 class InscriptionController extends AbstractController
 {
-    #[Route('/inscription/{idSortie}', name: '_incription',requirements: ['idSortie' => '\d+'])]
-    public function inscription(Request $request, int $idSortie,  EntityManagerInterface $entityManager): Response    {
+    #[Route('/inscription/{idSortie}/{idUser}', name: '_inscription',requirements: ['idSortie' => '\d+', 'idUser' => '\d+'])]
+    public function inscription(Request $request, int $idSortie,int $idUser,  EntityManagerInterface $entityManager,SortiesRepository $sortiesRepository): Response    {
 
-        return $this->render('inscription/index.html.twig');
+        //insertion du user à la sortie
+        $sortiesRepository->InsertUserSortie($idSortie,$idUser);
+        // envoie message flash
+        $this->addFlash('succes','Inscription effectuée avec succes 😊');
+
+        return $this->redirectToRoute('app_sorties_show', array(
+            'id' => $idSortie,
+        ));
     }
 
     #[Route('/desinscription/{idSortie}/{idUser}', name: '_desincription',requirements: ['idSortie' => '\d+', 'idUser' => '\d+'])]
     public function desinscription(Request $request, int $idSortie,int $idUser,  EntityManagerInterface $entityManager,SortiesRepository $sortiesRepository): Response
     {
+        // suppression du user de la sortie
         $sortiesRepository->DeleteUserSortie($idSortie,$idUser);
+        // envoie message flash
+        $this->addFlash('succes','Désinscription effectuée avec succes 😊');
 
-
-        return $this->redirectToRoute('app_sites_show', array(
+        return $this->redirectToRoute('app_sorties_show', array(
             'id' => $idSortie,
         ));
 
-
-
-        return $this->render('inscription/index.html.twig');
     }
 }
