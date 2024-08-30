@@ -4,6 +4,7 @@
 
     {% block body %}
         {% set trouver = "non"  %}
+
         <h1 class="text-center">Afficher une sortie</h1>
         <br>
         <div class="d-flex flex-column m-5" >
@@ -132,7 +133,7 @@
                         {% endif %}
                     </tr>
                 {% endfor %}
-                {% if trouver == 'non' %}
+                {% if trouver == 'non' and (sortie.users| length) < sortie.nbInscriptionsMax %}
                 <tr>
                     <td class="text-sm-start col-md-5"></td>
                     <td class=" text-sm-start col-md-5"></td>
