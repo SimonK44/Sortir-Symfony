@@ -12,6 +12,7 @@
             <div class="mb-3">
                 You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
+
         {% endif %}
 
         <h1 class="h3 mb-3 font-weight-normal">Login</h1>
@@ -36,7 +37,13 @@
         #}
 
         <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+            Connextion
         </button>
+        <div>
+        <input type="checkbox" id="souvenir" name="souvenir"/>
+        <label for="souvenir"> se souvenir de moi </label>
+        </div>
+
+        <a href="">Mot de passe oublié</a>
     </form>
 {% endblock %}

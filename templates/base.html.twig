@@ -30,7 +30,12 @@
                 <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
 {#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
                  <li style="padding:5px;"><a href="{{ path('_profiler_home') }}">Mon Profil</a></li>
-{#               <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>#}
+                 {% if is_granted('IS_AUTHENTICATED') %}
+                     <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>
+                     {% else %}
+                         <li style="padding:5px;"><a href="{{ path('app_login') }}">Connecter</a></li>
+                 {% endif %}
+
             </ul>
 
     </nav>
