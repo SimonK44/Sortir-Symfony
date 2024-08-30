@@ -90,4 +90,24 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_login');
     }
+
+    #[Route('/profil', name : 'app_profil')]
+    public function userProfil(Request $request, UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('user/profil.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
 }

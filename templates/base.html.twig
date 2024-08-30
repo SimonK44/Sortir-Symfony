@@ -15,30 +15,28 @@
 <body>
 
 
-    <div>
-        <img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}">
-    <nav>
-
+    <header>
+        <div class="headerLogo"><a href="{{ path('app_home') }}"><img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}"></a></div>
+        <nav>
              <ul>
                  {% if is_granted('IS_AUTHENTICATED') %}
                  <li>Bonjour {{ app.user.userIdentifier }}</li>
                  {% endif %}
 
-                <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
-                <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
-                <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
+
 {#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
-                 <li style="padding:5px;"><a href="{{ path('_profiler_home') }}">Mon Profil</a></li>
                  {% if is_granted('IS_AUTHENTICATED') %}
+                     <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
+                     <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
+                     <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
+                     <li style="padding:5px;"><a href="{{ path('app_profil') }}">Mon Profil</a></li>
                      <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>
                      {% else %}
                          <li style="padding:5px;"><a href="{{ path('app_login') }}">Connecter</a></li>
                  {% endif %}
-
             </ul>
-
-    </nav>
-    </div>
+        </nav>
+    </header>
     <div class="divblue"></div>
 
 <br>
