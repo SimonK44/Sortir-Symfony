@@ -3,6 +3,7 @@
     {% block title %}Sorties{% endblock %}
 
     {% block body %}
+        {% set trouver = "non"  %}
         <h1 class="text-center">Afficher une sortie</h1>
         <br>
         <div class="d-flex flex-column m-5" >
@@ -118,16 +119,27 @@
                         <input  type="hidden" id="id" name="id" value={{ user.id }} disabled/>
                         <td class="text-sm-start col-md-5">{{ user.pseudo }}</td>
                         <td class=" text-sm-start col-md-5">{{ user.nom }} {{ user.prenom }}</td>
-                        <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-danger" href="{{ path('_desincription',{'idSortie' :sortie.id,'idUser':user.id})}}">&#x1F5D1;</a></td>
+
+                        {% if user.id == app.user.id or is_granted('ROLE_ADMIN')  %}
+                             {% if user.id == app.user.id %}
+                              {# on sauvegarde le fait d' avoir le user connecter#}
+                                   {% set trouver = 'oui' %}
+                             {% endif %}
+                            <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-danger" href="{{ path('_desincription',{'idSortie' :sortie.id,'idUser':user.id})}}">&#x1F5D1;</a></td>
+                        {% else %}
+                            <td class=" text-sm-start col-md-5"></td>
+
+                        {% endif %}
                     </tr>
                 {% endfor %}
+                {% if trouver == 'non' %}
                 <tr>
                     <td class="text-sm-start col-md-5"></td>
                     <td class=" text-sm-start col-md-5"></td>
-                    {# % if app.user %#}
                     <td class=" text-sm-start col-md-5"> <a class="btn btn-outline-info" href="{{ path('_inscription',{'idSortie' :sortie.id,'idUser':app.user.id})}}">s'inscrire</a></td>
-                    {# % endif %#}
+
                 </tr>
+                {% endif %}
                 </tbody>
             </table>
         </div>
