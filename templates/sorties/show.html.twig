@@ -151,6 +151,7 @@
         <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_index') }}">Retour à la liste</a>
         <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">Modification</a>
         <br>
-        {{ include('sorties/_delete_form.html.twig') }}
-
+        {% if sortie.user.id == app.user.id or is_granted('ROLE_ADMIN')  %}
+         {{ include('sorties/_delete_form.html.twig') }}
+        {% endif %}
     {% endblock %}

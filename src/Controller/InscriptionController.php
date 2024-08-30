@@ -98,4 +98,49 @@ class InscriptionController extends AbstractController
         ));
 
     }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    #[Route('/app_sorties_delete/{idSortie}', name: '_suppressionSortie',requirements: ['idSortie' => '\d+', ])]
+    public function supprimerSortie(Request $request, int $idSortie,
+                                   EntityManagerInterface $entityManager,
+                                   SortiesRepository $sortiesRepository,
+                                   UserRepository $UserRepository,
+                                   MailerInterface $mailer ): Response {
+
+        $sortie = $sortiesRepository->find($idSortie);
+
+
+        foreach ($sortie->getUsers() as $participant) {
+            $texteFlash = $participant->getPseudo().'a reçu un mail d annulation de la sortie';
+      //      $this->addFlash('notice','les participants ont recu un Email');
+            $this->addFlash('notice',$texteFlash);
+
+
+            $email= (new TemplatedEmail())
+                ->from(new Address('mail@sortir.com', 'Eni Sortir Bot'))
+                ->to($participant->getEmail())
+                ->subject('Annulation sortie ️☠️ ☠️ ☠️ ☠️ ☠️ ☠️  ')
+                ->htmlTemplate('registration/annulation_email.html.twig')
+                ->context([
+                    'sortie' => $sortie,
+                    'participant' => $participant,
+                ]);
+
+            $mailer->send($email);
+
+        }
+
+        $this->addFlash('succes','La sortie a été supprimée avec succes');
+
+
+        $entityManager->remove($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
+
+    }
+
+
 }
