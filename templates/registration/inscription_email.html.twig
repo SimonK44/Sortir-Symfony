@@ -1,20 +1,33 @@
 
 
-<h1>Hello </h1>
+<h1>Hello  {{ participant.pseudo}} 😊</h1>
 
 <p>
-    Sortir.com vous confirme  votre inscription à la sortie {{ sortie.nom}} qui commencera le {{ sortie.dateDebut |date('Y-m-d H:i:s')}} <br><br>
+    Sortir.com vous confirme  votre inscription à la sortie {{ sortie.nom}} qui commencera le {{ sortie.dateDebut |date('d-m-Y H:i:s')}} . <br><br>
 
+    La sortie se déroulera à {{ sortie.lieux.nomLieu }} à l' adresse suivante {{ sortie.lieux.rue }} dans le ville de {{ sortie.lieux.ville.nomVille }}.
+</p>
+<p>
+    Le temps estimée de la sortie sera de {{ sortie.duree }} heures.
+</p>
+<p>
+    Vous serez accompagner de :
+</p>
+<br>
+</p>
+    {% for user in sortie.users %}
+        {%if not (user.id == participant.id) %}
+        <div class=" text-sm-start col-md-5"> -  {{ user.prenom }} {{ user.nom }}</div>
+        {% endif %}
+    {% endfor %}
 
-    vous serez accompagner de :
-
-
-
+    <br>
+<p>
    Cordialement
+
+
+
+    L' équipe de Sortir.com
 </p>
 
-<p>
-    Cheers!
-</p>
-
-<img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}">
+<img class="sortirLogo"  src="{{asset('images/sortirLogo.png') }}">

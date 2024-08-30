@@ -53,6 +53,7 @@ class InscriptionController extends AbstractController
            ->htmlTemplate('registration/inscription_email.html.twig')
            ->context([
             'sortie' => $sortie,
+            'participant' => $user,
         ]);
 
 
@@ -65,12 +66,32 @@ class InscriptionController extends AbstractController
     }
 
     #[Route('/desinscription/{idSortie}/{idUser}', name: '_desincription',requirements: ['idSortie' => '\d+', 'idUser' => '\d+'])]
-    public function desinscription(Request $request, int $idSortie,int $idUser,  EntityManagerInterface $entityManager,SortiesRepository $sortiesRepository): Response
-    {
+    public function desinscription(Request $request, int $idSortie,int $idUser,
+                                   EntityManagerInterface $entityManager,
+                                   SortiesRepository $sortiesRepository,
+                                   UserRepository $UserRepository,
+                                   MailerInterface $mailer ): Response {
+
+
         // suppression du user de la sortie
         $sortiesRepository->DeleteUserSortie($idSortie,$idUser);
         // envoie message flash
         $this->addFlash('succes','Désinscription effectuée avec succes 😊');
+
+        $user =$UserRepository->find($idUser);
+        $sortie = $sortiesRepository->find($idSortie);
+        $email= (new TemplatedEmail())
+            ->from(new Address('mail@sortir.com', 'Eni Sortir Bot'))
+            ->to($user->getEmail())
+            ->subject('Inscription sortie')
+            ->htmlTemplate('registration/desinscription_email.html.twig')
+            ->context([
+                'sortie' => $sortie,
+                'participant' => $user,
+            ]);
+
+
+        $mailer->send($email);
 
         return $this->redirectToRoute('app_sorties_show', array(
             'id' => $idSortie,
