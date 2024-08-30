@@ -12,10 +12,12 @@ body {
 
 }
 
+
 nav {
     background-color : #ee7915;
     height: 50px;
 }
+
 
 .container {
     max-width: 1200px;
@@ -55,10 +57,6 @@ body > .container {
 
 }
 
-header img {
-    height: 70px;
-}
-
 main {
     flex: 1;
 }
@@ -66,9 +64,7 @@ main {
 nav div {
     display: flex;
     Align-content:center;
-    height: 50px;
     align-items:center;
-    margin-top:60px;
 }
 
 nav ul {
@@ -86,11 +82,14 @@ nav li {
 }
 
 .sortirLogo {
-
     position: relative;
     top: 20px; left:30px;
     width : 150px;
-    height : 150px;
+}
+
+.headerLogo{
+    position: relative;
+    top:20px;left:20px;
 }
 
 

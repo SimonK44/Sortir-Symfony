@@ -23,6 +23,9 @@ security:
                 enable_csrf: true
             pattern: ^/
             user_checker: App\Security\UserChecker
+            remember_me:
+                secret:   '%kernel.secret%'
+
             logout:
                 path: app_logout
                 # where to redirect after logout
