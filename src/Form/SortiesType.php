@@ -48,21 +48,39 @@ class SortiesType extends AbstractType
                 'class' => Lieux::class,
                 'choice_label' => 'nomLieu',
                 'placeholder' => ' -- Choisissez un lieu -- ',
+                'attr' => [
+                    'id' => 'sorties_lieux'  // ID pour cibler cet élément dans le JS
+                ],
                 'query_builder' => function (LieuxRepository $lieuxRepository) {
                     return $lieuxRepository->createQueryBuilder('l')->orderBy('l.nomLieu', 'ASC');
                 }
             ])
-            ->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event): void {
-            dd('test');
-            })
-
-            ->add('lieu-creation', LieuxType::class, [
-                'label' => 'Créer un lieu : ',
+            ->add('lieuDetails', TextareaType::class, [
+                'label' => 'Détails du lieu :',
                 'mapped' => false,
+                'required' => false,
+                'attr' => ['readonly' => true, 'rows' => 5]
             ])
+//            ->add('lieu-creation', LieuxType::class, [
+//                        'label' => 'Créer un lieu : ',
+//                        'mapped' => false
+//            ])
             ->add('isPublished', CheckboxType::class,
                 ['required' => false, 'label' => 'Publier la sortie'
             ]);
+
+        $builder->get('lieux')->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            // Récupérer les détails du lieu sélectionné
+            if ($data) {
+                $lieu = $form->getConfig()->getOption('em')->getRepository(Lieux::class)->find($data);
+                if ($lieu) {
+                    $form->getParent()->get('lieuDetails')->setData($lieu->getDetails());
+                }
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

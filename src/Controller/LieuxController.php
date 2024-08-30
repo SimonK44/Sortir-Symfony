@@ -18,27 +18,39 @@ class LieuxController extends AbstractController
     public function index(LieuxRepository $lieuxRepository): Response
     {
         return $this->render('lieux/index.html.twig', [
-            'lieuxes' => $lieuxRepository->findAll(),
+            'lieux' => $lieuxRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/details/{id}', name: 'app_lieux_details', methods: ['GET'])]
+    public function details(Lieux $lieux): Response
+    {
+        return $this->json([
+            'success' => true,
+            'rue' => $lieux->getRue(),
+            'latitude' => $lieux->getLatitude(),
+            'longitude' => $lieux->getLongitude(),
+            'ville' => $lieux->getVille()->getNomVille(),
         ]);
     }
 
     #[Route('/new', name: 'app_lieux_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $lieux = new Lieux();
-        $form = $this->createForm(LieuxType::class, $lieux);
+        $lieu = new Lieux();
+        $form = $this->createForm(LieuxType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($lieux);
+            $entityManager->persist($lieu);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lieux_index', [], Response::HTTP_SEE_OTHER);
-        }
+            return $this->redirectToRoute('app_lieux_index', ['lieu' => $lieu->getId()], Response::HTTP_SEE_OTHER);
 
+        }
         return $this->render('lieux/new.html.twig', [
-            'lieux' => $lieux,
-            'form' => $form,
+            'lieux' => $lieu,
+            'form' => $form->createView(),
         ]);
     }
 

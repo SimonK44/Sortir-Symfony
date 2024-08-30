@@ -31,19 +31,12 @@ class SortiesController extends AbstractController
         $sortie = new Sorties();
 
         $sortie->setUser($this->getUser());
-
         $sortie->setSite($sortie->getUser()->getSite());
 
         $form = $this->createForm(SortiesType::class, $sortie);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $sortie = $form->getData();
-
-            $sortie->getLieu()->setRue($form->get('rue')->getData());
-
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -54,7 +47,7 @@ class SortiesController extends AbstractController
 
         return $this->render('sorties/new.html.twig', [
             'sortie' => $sortie,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
