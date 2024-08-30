@@ -1,4 +1,11 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.dateDebut) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.dateCloture) }}
+    {{ form_row(form.nbInscriptionsMax) }}
+    {{ form_row(form.descriptionInfos) }}
+    {{ form_row(form.lieux) }}
+    {{ form_row(form.isPublished) }}
     <button class="btn btn-outline-info btn-sm">{{ button_label|default('Enregister') }}</button>
 {{ form_end(form) }}

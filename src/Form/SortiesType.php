@@ -12,6 +12,7 @@ use App\Repository\SitesRepository;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -38,36 +39,30 @@ class SortiesType extends AbstractType
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text'
             ])
-            ->add('nbInscriptionsMax', null, ['label' => 'Nombre de places'])
+            ->add('nbInscriptionsMax', null, ['label' => 'Nombre de places :'])
             ->add('descriptionInfos', TextareaType::class, [
                 'label' => 'Description et infos : ',
             ])
             ->add('lieux', EntityType::class, [
+                'label' => 'Lieu : ',
                 'class' => Lieux::class,
                 'choice_label' => 'nomLieu',
+                'placeholder' => ' -- Choisissez un lieu -- ',
                 'query_builder' => function (LieuxRepository $lieuxRepository) {
                     return $lieuxRepository->createQueryBuilder('l')->orderBy('l.nomLieu', 'ASC');
                 }
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event): void {
+            dd('test');
+            })
+
+            ->add('lieu-creation', LieuxType::class, [
+                'label' => 'Créer un lieu : ',
+                'mapped' => false,
+            ])
             ->add('isPublished', CheckboxType::class,
                 ['required' => false, 'label' => 'Publier la sortie'
             ]);
-
-        $builder
-            ->get('lieux')->addEventListener(
-                FormEvents::PRE_SUBMIT,
-                function (FormEvent $event) {
-                    $form = $event->getForm();
-                    $lieu = $form->getData();
-
-                    if ($lieu) {
-                        $form->getParent()->add('ville', TextType::class, [
-                            'label' => 'Ville : ',
-                            'mapped' => false,
-                        ]);
-                    }
-                }
-            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

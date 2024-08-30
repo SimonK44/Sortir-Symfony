@@ -14,7 +14,8 @@
                 <th>Debut de la sortie</th>
                 <th>Duree de la sortie</th>
                 <th>Date limite d'inscription</th>
-                <th>Nombre maximum de participant</th>
+                <th>Nombre d'inscrits</th>
+                <th>Nombre maximum de participants</th>
                 <th>Description de la sortie</th>
                 <th>Etat de la sortie</th>
                 <th>actions</th>
@@ -28,6 +29,7 @@
                 <td>{{ sortie.dateDebut ? sortie.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.duree }}</td>
                 <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.descriptionInfos }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
