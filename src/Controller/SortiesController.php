@@ -20,17 +20,13 @@ class SortiesController extends AbstractController
     #[Route('/', name: 'app_sorties_index', methods: ['GET'])]
     public function index(SortiesRepository $sortiesRepository, SortieService $sortieService): Response
     {
-
-        $sortie = new Sorties();
-        $sortieService->etatActiviteEnCours($sortie);
-        $sortieService->etatActiviteTerminee($sortie);
         return $this->render('sorties/index.html.twig', [
             'sorties' => $sortiesRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_sorties_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
         {
         $sortie = new Sorties();
 
@@ -39,12 +35,19 @@ class SortiesController extends AbstractController
         $sortie->setSite($sortie->getUser()->getSite());
 
         $form = $this->createForm(SortiesType::class, $sortie);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $sortie = $form->getData();
+
+            $sortie->getLieu()->setRue($form->get('rue')->getData());
+
             $entityManager->persist($sortie);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Sortie ajoutée !');
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -73,6 +76,8 @@ class SortiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieService->etatOuverte($sortie);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Sortie modifiée !');
 
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
         }

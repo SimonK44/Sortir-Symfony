@@ -29,7 +29,7 @@
                     <label for="dateSortie">Date et heure  :</label>
                 </div>
                 <div class="col align-items-start">
-                    <input type="text" id="dateSortie" name="dateSortie" value={{ sortie.dateDebut ? sortie.dateDebut|date('Y-m-d H:i:s') : ''  }} disabled/>
+                    <input type="text" id="dateSortie" name="dateSortie" value={{ sortie.dateDebut ? sortie.dateDebut|date('d-m-Y H:i:s') : ''  }} disabled/>
                 </div>
                 <div class="col align-items-start">
                     <label for="rue">Rue :</label>
@@ -44,7 +44,7 @@
                     <label for="dateLimite">Date limite inscription :</label>
                 </div>
                 <div class="col align-items-start">
-                    <input type="text" id="dateLimite" name="dateLimite" value={{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d H:i:s') : ''  }} disabled/>
+                    <input type="text" id="dateLimite" name="dateLimite" value={{ sortie.dateCloture ? sortie.dateCloture|date('d-m-Y H:i:s') : ''  }} disabled/>
                 </div>
                 <div class="col">
                     <label for="ville">Ville :</label>
@@ -135,7 +135,7 @@
 
 
 
-        <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_index') }}">Retour à la list</a>
+        <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_index') }}">Retour à la liste</a>
         <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_edit', {'id': sortie.id}) }}">Modification</a>
         <br>
         {{ include('sorties/_delete_form.html.twig') }}
