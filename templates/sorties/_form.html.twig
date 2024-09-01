@@ -1,5 +1,5 @@
 {% block javascripts %}
-    <script src="{{ asset('lieu_creation.js') }}"></script>
+    <script src="{{ asset('lieu_creation.js') }}" defer></script>
 {% endblock %}
 
 {{ form_start(form) }}
@@ -17,3 +17,5 @@
 
     <button class="btn btn-outline-info btn-sm">{{ button_label|default('Enregister') }}</button>
 {{ form_end(form) }}
+
+{% include 'lieux/_form.html.twig' with { 'form': form } %}

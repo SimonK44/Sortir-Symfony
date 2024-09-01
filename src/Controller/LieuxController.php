@@ -7,6 +7,7 @@ use App\Form\LieuxType;
 use App\Repository\LieuxRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,7 +36,7 @@ class LieuxController extends AbstractController
     }
 
     #[Route('/new', name: 'app_lieux_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $lieu = new Lieux();
         $form = $this->createForm(LieuxType::class, $lieu);
@@ -45,13 +46,27 @@ class LieuxController extends AbstractController
             $entityManager->persist($lieu);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lieux_index', ['lieu' => $lieu->getId()], Response::HTTP_SEE_OTHER);
+//            return $this->redirectToRoute('app_lieux_index', ['lieu' => $lieu->getId()], Response::HTTP_SEE_OTHER);
 
+            return new JsonResponse([
+                'success' => true,
+                'id' => $lieu->getId(),
+                'nomLieu' => $lieu->getNomLieu(),
+                'rue' => $lieu->getRue(),
+                'latitude' => $lieu->getLatitude(),
+                'longitude' => $lieu->getLongitude(),
+                'ville' => $lieu->getVille()->getNomVille(),
+            ]);
         }
-        return $this->render('lieux/new.html.twig', [
-            'lieux' => $lieu,
-            'form' => $form->createView(),
-        ]);
+
+        return new JsonResponse([
+            'success' => false
+        ], 400);
+
+//        return $this->render('lieux/new.html.twig', [
+//            'lieux' => $lieu,
+//            'form' => $form->createView(),
+//        ]);
     }
 
     #[Route('/{id}', name: 'app_lieux_show', methods: ['GET'])]

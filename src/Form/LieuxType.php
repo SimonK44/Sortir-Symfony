@@ -17,7 +17,7 @@ class LieuxType extends AbstractType
     {
         $builder
             ->add('nomLieu', TextType::class, [
-                'label' => 'Nom Lieu',
+                'label' => 'Nom du lieu',
             ])
             ->add('rue',TextType::class)
             ->add('latitude', TextType::class)

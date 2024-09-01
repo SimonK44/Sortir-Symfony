@@ -6,19 +6,15 @@ document.getElementById('sorties_lieux').addEventListener('change', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    let details = `
-                        Rue : ${data.rue}\n
-                        Latitude : ${data.latitude}\n
-                        Longitude : ${data.longitude}\n
-                        Ville : ${data.ville}
-                    `;
-                    document.querySelector('#lieuDetails').value = details;
+                    let details = `Rue : ${data.rue}\nLatitude : ${data.latitude}\nLongitude : ${data.longitude}\nVille : ${data.ville}`;
+                    document.getElementById('sorties_lieuDetails').value = details;
+                    // document.querySelector('#lieuDetails').value = details;
                 } else {
-                    document.querySelector('#lieuDetails').value = 'Détails non disponibles';
+                    document.getElementById('sorties_lieuDetails').value = 'Détails non disponibles';
                 }
             });
     } else {
-        document.querySelector('#lieuDetails').value = '';
+        document.getElementById('sorties_lieuDetails').value = '';
     }
 });
 

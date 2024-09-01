@@ -1,19 +1,8 @@
+{% block javascripts %}
+    <script src="{{ asset('lieu_creation.js') }}" defer></script>
+{% endblock %}
+
 {#{{ form_start(form) }}#}
-{#    {{ form_widget(form) }}#}
-
-{% block body %}
-<h1>Créer une nouvelle sortie</h1>
-
-{{ form_start(form) }}
-{{ form_widget(form) }}
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newLieuModal">
-    Nouveau Lieu
-</button>
-
-<button type="submit" class="btn btn-success">Enregistrer la sortie</button>
-{{ form_end(form) }}
-
 <!-- Modal pour la création d'un nouveau lieu -->
 <div class="modal fade" id="newLieuModal" tabindex="-1" aria-labelledby="newLieuModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -24,26 +13,11 @@
             </div>
             <div class="modal-body">
                 <form id="new-lieu-form">
-                    <div class="mb-3">
-                        <label for="lieu-nom" class="form-label">Nom du lieu</label>
-                        <input type="text" class="form-control" id="lieu-nom" name="nom">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lieu-rue" class="form-label">Rue</label>
-                        <input type="text" class="form-control" id="lieu-rue" name="rue">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lieu-latitude" class="form-label">Latitude</label>
-                        <input type="text" class="form-control" id="lieu-latitude" name="latitude">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lieu-longitude" class="form-label">Longitude</label>
-                        <input type="text" class="form-control" id="lieu-longitude" name="longitude">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lieu-ville" class="form-label">Ville</label>
-                        <input type="text" class="form-control" id="lieu-ville" name="ville">
-                    </div>
+{#                    {{ form_widget(form.nomLieu) }}#}
+{#                    {{ form_widget(form.rue) }}#}
+{#                    {{ form_widget(form.latitude) }}#}
+{#                    {{ form_widget(form.longitude) }}#}
+{#                    {{ form_widget(form.ville) }}#}
                     <button type="button" class="btn btn-primary" id="save-lieu">Enregistrer</button>
                 </form>
             </div>
@@ -51,8 +25,5 @@
     </div>
 </div>
 
-{% endblock %}
-
-{#    <button class="btn">{{ button_label|default('Save') }}</button>#}
 {#{{ form_end(form) }}#}
 
