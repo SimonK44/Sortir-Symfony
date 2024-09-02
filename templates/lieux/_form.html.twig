@@ -1,5 +1,27 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+<!-- Modal pour la création d'un nouveau lieu -->
+<div class="modal fade" id="newLieuModal" tabindex="-1" aria-labelledby="newLieuModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newLieuModalLabel">Créer un nouveau lieu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="new-lieu-form">
+                    {{ form_start(formLieu) }}
+                    {{ form_row(formLieu.nomLieu) }}
+                    {{ form_row(formLieu.rue) }}
+                    {{ form_row(formLieu.latitude) }}
+                    {{ form_row(formLieu.longitude) }}
+                    {{ form_row(formLieu.ville) }}
+                    {{ form_end(formLieu) }}
+                    <button type="button" class="btn btn-primary" id="save-lieu">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 

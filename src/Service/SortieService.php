@@ -12,6 +12,7 @@ class SortieService
     public function __construct(private readonly EtatsRepository $etatsRepository, SortiesRepository $sortiesRepository)
     {}
 
+
     public function postLoad(Sorties $sorties): void
     {
         $this->etatEnCreation($sorties);

@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
 use App\Entity\Sites;
 use App\Entity\Sorties;
+use App\Form\LieuxType;
 use App\Form\SortiesType;
 use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortiesController extends AbstractController
 {
     #[Route('/', name: 'app_sorties_index', methods: ['GET'])]
-    public function index(SortiesRepository $sortiesRepository, SortieService $sortieService): Response
+    public function index(SortiesRepository $sortiesRepository): Response
     {
         return $this->render('sorties/index.html.twig', [
             'sorties' => $sortiesRepository->findAll(),
@@ -26,24 +29,20 @@ class SortiesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sorties_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
         {
         $sortie = new Sorties();
-
+        $lieu = new Lieux();
         $sortie->setUser($this->getUser());
-
         $sortie->setSite($sortie->getUser()->getSite());
+        $sortieService->postLoad($sortie);
 
+        $formLieu = $this->createForm(LieuxType::class, $lieu);
         $form = $this->createForm(SortiesType::class, $sortie);
-
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $sortie = $form->getData();
-
-            $sortie->getLieu()->setRue($form->get('rue')->getData());
-
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -55,6 +54,7 @@ class SortiesController extends AbstractController
         return $this->render('sorties/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'formLieu' => $formLieu,
         ]);
     }
 
@@ -73,6 +73,9 @@ class SortiesController extends AbstractController
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
+        $lieu = new Lieux();
+        $formLieu = $this->createForm(LieuxType::class, $lieu);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieService->etatOuverte($sortie);
             $entityManager->flush();
@@ -85,6 +88,7 @@ class SortiesController extends AbstractController
         return $this->render('sorties/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'formLieu' => $formLieu,
         ]);
     }
 
@@ -98,4 +102,5 @@ class SortiesController extends AbstractController
 
         return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -1,3 +1,9 @@
+{% block javascripts %}
+    <script src="{{ asset('lieu_creation.js') }}" defer></script>
+{% endblock %}
+
+{% include 'lieux/_form.html.twig' with { 'formLieu': formLieu } %}
+
 {{ form_start(form) }}
     {{ form_row(form.nom) }}
     {{ form_row(form.dateDebut) }}
@@ -6,6 +12,12 @@
     {{ form_row(form.nbInscriptionsMax) }}
     {{ form_row(form.descriptionInfos) }}
     {{ form_row(form.lieux) }}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newLieuModal">
+    Nouveau Lieu
+</button>
     {{ form_row(form.isPublished) }}
+
     <button class="btn btn-outline-info btn-sm">{{ button_label|default('Enregister') }}</button>
 {{ form_end(form) }}
+
+
