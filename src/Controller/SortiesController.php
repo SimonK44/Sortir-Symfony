@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sorties')]
 class SortiesController extends AbstractController
 {
-    #[Route('/{page}', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
+    #[Route('/{page}/list', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
     public function index(SortiesRepository $sortiesRepository, int $page): Response
     {
     // gestion de la pagination
