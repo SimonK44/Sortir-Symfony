@@ -107,12 +107,18 @@ class RegistrationController extends AbstractController
         $user = $this->getUser();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        //dd($user);
+        //dd($form);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd($user);
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
+            // envoie message flash
+            $this->addFlash('succes','Profil modifié avec succes 😊');
+
+            return $this->redirectToRoute('app_profil_retour', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/profil_modification.html.twig', [
@@ -121,7 +127,15 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/retour', name : 'app_profil_retour')]
+    public function retourProfil(Request $request, UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
 
+        return $this->render('user/profil_retour.html.twig', [
+            'user' => $user,
+        ]);
+    }
 
 
 

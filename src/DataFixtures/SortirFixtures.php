@@ -64,10 +64,10 @@ class SortirFixtures extends Fixture
 
 
             $sortie->setNom($faker->words(1, true))
-                ->setDateDebut(new \dateTime())
+                ->setDateDebut($faker->dateTimeBetween(new \DateTime('-10 day'), new \DateTime('1 year')))
                 ->setDuree(mt_rand(1, 10))
                 ->setIsPublished($faker->randomDigitNotNull())
-                ->setDateCloture($faker->dateTimeBetween($sortie->getDateDebut(),new \datetime()))
+                ->setDateCloture($faker->dateTimeBetween($sortie->getDateDebut(),new \DateTime('+2 year')))
                 ->setnbInscriptionsMax(mt_rand(2, 20))
                 ->setDescriptionInfos($faker->words(8, true))
                 ->setEtatSortie(2)
