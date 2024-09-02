@@ -101,7 +101,25 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/edit', name : 'app_profil_modification')]
+    public function modificationProfil(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/profil_modification.html.twig', [
+            'user' => $user,
+            'registrationForm' => $form->createView(),
+        ]);
+    }
 
 
 
