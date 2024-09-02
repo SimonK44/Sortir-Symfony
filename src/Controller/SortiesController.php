@@ -20,11 +20,20 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sorties')]
 class SortiesController extends AbstractController
 {
-    #[Route('/', name: 'app_sorties_index', methods: ['GET'])]
-    public function index(SortiesRepository $sortiesRepository): Response
+    #[Route('/{page}', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
+    public function index(SortiesRepository $sortiesRepository, int $page): Response
     {
+    // gestion de la pagination
+        $nbByPage = 25;
+        $offset = ($page-1) * $nbByPage;
+
+        $nbTotal = $sortiesRepository->count();
+        $sorties = $sortiesRepository->findSortiePaginer($nbByPage,$offset);
+
         return $this->render('sorties/index.html.twig', [
-            'sorties' => $sortiesRepository->findAll(),
+            'sorties' => $sorties,
+            'page' => $page,
+            'nbPagesMax' => ceil($nbTotal / $nbByPage),
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,8 +38,15 @@ class SortiesRepository extends ServiceEntityRepository
 
     }
 
+    public function findSortiePaginer(int $limit, int $offset): Paginator
+    {
+        $q = $this->createQueryBuilder('s')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery();
 
-
+        return new Paginator($q);
+    }
 
     //    /**
     //     * @return Sorties[] Returns an array of Sorties objects

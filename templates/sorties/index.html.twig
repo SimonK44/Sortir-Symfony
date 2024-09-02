@@ -43,8 +43,16 @@
                 <td colspan="11">Pas de sortie</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
 
+        </tbody>
+
+    </table>
+    {% if page > 1 %}
+        <a href="{{ path('app_sorties_index', {'page' : page - 1}) }}"><img class="gif2"  src="{{  asset('images/pageprecedente.gif') }}"></a>
+    {% endif %}&nbsp;
+    {% if page < nbPagesMax %}
+        <a href="{{ path('app_sorties_index', {'page' : page + 1}) }}"><img class="gif2"  src="{{  asset('images/pagesuivante.gif') }}"></a>
+    {% endif %}
+   <br>
     <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_new') }}">Ajout</a>
 {% endblock %}
