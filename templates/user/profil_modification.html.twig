@@ -21,6 +21,8 @@
 
     {{ form_row(registrationForm.agreeTerms) }}
 
-    <button type="submit" class="btn btn-outline-info btn-sm">Register</button>
+
+    <button type="submit" class="btn btn-outline-info btn-sm">Enregister</button>
+    <a class="btn btn-outline-info btn-sm" href="{{ path('app_profil') }}">Annuler</a>
     {{ form_end(registrationForm) }}
 {% endblock %}
