@@ -64,6 +64,8 @@ class SortiesType extends AbstractType
             ->add('isPublished', CheckboxType::class,
                 ['required' => false, 'label' => 'Publier la sortie'
             ]);
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

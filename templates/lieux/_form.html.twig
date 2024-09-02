@@ -1,8 +1,4 @@
-{% block javascripts %}
-    <script src="{{ asset('lieu_creation.js') }}" defer></script>
-{% endblock %}
 
-{#{{ form_start(form) }}#}
 <!-- Modal pour la création d'un nouveau lieu -->
 <div class="modal fade" id="newLieuModal" tabindex="-1" aria-labelledby="newLieuModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -13,11 +9,13 @@
             </div>
             <div class="modal-body">
                 <form id="new-lieu-form">
-{#                    {{ form_widget(form.nomLieu) }}#}
-{#                    {{ form_widget(form.rue) }}#}
-{#                    {{ form_widget(form.latitude) }}#}
-{#                    {{ form_widget(form.longitude) }}#}
-{#                    {{ form_widget(form.ville) }}#}
+                    {{ form_start(formLieu) }}
+                    {{ form_row(formLieu.nomLieu) }}
+                    {{ form_row(formLieu.rue) }}
+                    {{ form_row(formLieu.latitude) }}
+                    {{ form_row(formLieu.longitude) }}
+                    {{ form_row(formLieu.ville) }}
+                    {{ form_end(formLieu) }}
                     <button type="button" class="btn btn-primary" id="save-lieu">Enregistrer</button>
                 </form>
             </div>
@@ -25,5 +23,5 @@
     </div>
 </div>
 
-{#{{ form_end(form) }}#}
+
 

@@ -32,12 +32,15 @@ class SortiesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
         {
         $sortie = new Sorties();
+        $lieu = new Lieux();
         $sortie->setUser($this->getUser());
         $sortie->setSite($sortie->getUser()->getSite());
         $sortieService->postLoad($sortie);
 
+        $formLieu = $this->createForm(LieuxType::class, $lieu);
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($sortie);
@@ -50,7 +53,8 @@ class SortiesController extends AbstractController
 
         return $this->render('sorties/new.html.twig', [
             'sortie' => $sortie,
-            'form' => $form->createView(),
+            'form' => $form,
+            'formLieu' => $formLieu,
         ]);
     }
 
@@ -69,6 +73,9 @@ class SortiesController extends AbstractController
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
+        $lieu = new Lieux();
+        $formLieu = $this->createForm(LieuxType::class, $lieu);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieService->etatOuverte($sortie);
             $entityManager->flush();
@@ -81,6 +88,7 @@ class SortiesController extends AbstractController
         return $this->render('sorties/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'formLieu' => $formLieu,
         ]);
     }
 

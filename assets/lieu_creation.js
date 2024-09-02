@@ -34,7 +34,7 @@ document.getElementById('save-lieu').addEventListener('click', function() {
                 document.getElementById('sorties_lieux').add(option);
 
                 // Fermer la modal
-                $('#newLieuModal').modal('hide');
+                // document.getElementById('newLieuModal').close = true;
             } else {
                 alert('Erreur lors de la création du lieu');
             }
