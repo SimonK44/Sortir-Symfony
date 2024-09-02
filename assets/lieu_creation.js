@@ -22,6 +22,7 @@ document.getElementById('save-lieu').addEventListener('click', function() {
     let form = document.getElementById('new-lieu-form');
     let formData = new FormData(form);
 
+    //Soumission asynchrone via Ajax
     fetch('/lieux/new', {
         method: 'POST',
         body: formData
@@ -33,10 +34,13 @@ document.getElementById('save-lieu').addEventListener('click', function() {
                 let option = new Option(data.nomLieu, data.id);
                 document.getElementById('sorties_lieux').add(option);
 
+                alert('Nouveau lieu créé avec succès');
+
                 // Fermer la modal
+
                 // document.getElementById('newLieuModal').close = true;
             } else {
-                alert('Erreur lors de la création du lieu');
+                alert('Veuillez vérifier vos données');
             }
         });
 });

@@ -6,8 +6,12 @@ use App\Repository\LieuxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LieuxRepository::class)]
+#[ORM\UniqueConstraint(columns: ['nomLieu', 'ville'])]
+#[UniqueEntity(fields: ['nomLieu', 'ville'], message: 'Un lieu avec ce nom existe déja dans cette ville')]
 class Lieux
 {
     #[ORM\Id]
@@ -17,19 +21,24 @@ class Lieux
 
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Il faut un nom à ton lieu !')]
     private ?string $nomLieu = null;
 
     #[ORM\Column(length: 30, nullable: true)]
+    #[Assert\NotBlank(message: 'Rue obligatoire')]
     private ?string $rue = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: 'Latitude obligatoire')]
     private ?float $latitude = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: 'Latitude obligatoire')]
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'lieux')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'Ville obligatoire')]
     private ?Villes $ville = null;
 
     /**

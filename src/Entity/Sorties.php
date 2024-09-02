@@ -22,24 +22,35 @@ class Sorties
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Il faut un nom à ta sortie !')]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\Positive]
+    #[Assert\Positive(message: 'Le nombre de minutes doit être positif !')]
+    #[Assert\Range(min: 60, max: 999, notInRangeMessage: 'la sortie doit durée au minimum {{ min }} minutes')]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[LessThan(propertyPath: 'dateDebut')]
-    #[GreaterThanOrEqual('today')]
+    #[LessThan(propertyPath: 'dateDebut', message: 'Postérieur à la date du début de la sortie !')]
+    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateCloture = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: 'Deux participants au minimum !')]
+    #[Assert\Range(min: 2, max: 300, notInRangeMessage: 'le nombre de participants doit etre compris entre {{ min }} et {{ max }}')]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(length: 500, nullable: true)]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Votre description doit comprendre au moins {{ limit }} caractères.',
+        max: 300,
+        maxMessage: 'Votre description doit comprendre {{ limit }} caractères au maximum.'
+    )]
     private ?string $descriptionInfos = null;
 
     #[ORM\Column(nullable: true)]

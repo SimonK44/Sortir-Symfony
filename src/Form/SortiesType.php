@@ -34,7 +34,7 @@ class SortiesType extends AbstractType
                 'label' => 'Date et heure de la sortie : ',
                 'widget' => 'single_text'
             ])
-            ->add('duree', null,['label' => 'Durée : '])
+            ->add('duree', null,['label' => 'Durée en minutes : '])
             ->add('dateCloture', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text'

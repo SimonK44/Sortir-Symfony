@@ -46,6 +46,8 @@ class LieuxController extends AbstractController
             $entityManager->persist($lieu);
             $entityManager->flush();
 
+            $this->addFlash('succes','Nouveau lieu créé avec succes 😊');
+
 //            return $this->redirectToRoute('app_lieux_index', ['lieu' => $lieu->getId()], Response::HTTP_SEE_OTHER);
 
             return new JsonResponse([
@@ -65,7 +67,7 @@ class LieuxController extends AbstractController
 
 //        return $this->render('lieux/new.html.twig', [
 //            'lieux' => $lieu,
-//            'form' => $form->createView(),
+//            'form' => $form,
 //        ]);
     }
 
@@ -85,6 +87,7 @@ class LieuxController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('succes','Lieu modifié avec succes 😊');
 
             return $this->redirectToRoute('app_lieux_index', [], Response::HTTP_SEE_OTHER);
         }

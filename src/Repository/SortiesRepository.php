@@ -43,6 +43,7 @@ class SortiesRepository extends ServiceEntityRepository
         $q = $this->createQueryBuilder('s')
             ->setMaxResults($limit)
             ->setFirstResult($offset)
+            ->orderBy('s.id', 'ASC')
             ->getQuery();
 
         return new Paginator($q);

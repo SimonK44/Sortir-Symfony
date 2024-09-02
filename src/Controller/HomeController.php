@@ -19,4 +19,15 @@ class HomeController extends AbstractController
             'blague' => $blague,
         ]);
     }
+
+    #[Route('/api', name: 'app_api')]
+    public function api(HttpClientInterface $httpClient): Response
+    {
+        $response = $httpClient->request('GET', 'https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port');
+        $retourApi = json_decode($response->getContent(), true);
+
+        return $this->render('home/index.html.twig', [
+            'retourApi' => $retourApi
+        ]);
+    }
 }
