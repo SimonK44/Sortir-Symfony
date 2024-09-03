@@ -23,7 +23,7 @@ class SortiesController extends AbstractController
     #[Route('/{page}/list', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
     public function index(SortiesRepository $sortiesRepository, int $page): Response
     {
-    // gestion de la pagination
+        // gestion de la pagination
         $nbByPage = 25;
         $offset = ($page-1) * $nbByPage;
 
@@ -81,6 +81,7 @@ class SortiesController extends AbstractController
     {
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
+        $sortieService->postLoad($sortie);
 
         $lieu = new Lieux();
         $formLieu = $this->createForm(LieuxType::class, $lieu);
