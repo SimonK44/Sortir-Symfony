@@ -38,13 +38,44 @@ class SortiesRepository extends ServiceEntityRepository
 
     }
 
-    public function findSortiePaginer(int $limit, int $offset): Paginator
+    public function findSortiePaginer(int $limit, int $offset,int $siteId): Paginator
     {
         $q = $this->createQueryBuilder('s')
+            ->andWhere('s.Etat < 6 ')
+            ->andWhere('s.site = :siteId ')
+            ->setParameter(':siteId', $siteId)
             ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->orderBy('s.id', 'ASC')
             ->getQuery();
+
+
+        return new Paginator($q);
+    }
+
+    public function findSortiePaginerAvecFiltre(int $limit, int $offset,int $siteId,array $filtre): Paginator
+    {
+        $q = $this->createQueryBuilder('s')
+            ->andWhere('s.Etat < 6 ')
+            ->andWhere('s.site = :siteId ')
+            ->setParameter(':siteId', $siteId)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        if ($filtre['nom']) {
+            $q->andWhere('s.nom LIKE :nom')
+              ->setParameter(':nom', '%'.$filtre['nom'].'%');
+        }
+        if ($filtre['dateDebut']) {
+            $q->andWhere('s.dateDebut >= :dateDebut')
+              ->setParameter(':dateDebut', $filtre['dateDebut']);
+        }
+        if ($filtre['dateFin']) {
+            $q->andWhere('s.dateDebut <= :dateFin')
+                ->setParameter(':dateFin', $filtre['dateFin']);
+        }
+
+           $q->getQuery();
 
         return new Paginator($q);
     }

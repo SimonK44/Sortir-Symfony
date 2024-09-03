@@ -23,17 +23,38 @@ class SortiesController extends AbstractController
     #[Route('/{page}/list', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
     public function index(SortiesRepository $sortiesRepository, int $page): Response
     {
-        // gestion de la pagination
+
+        $filtre = [];
+
+    // gestion de la pagination
         $nbByPage = 25;
         $offset = ($page-1) * $nbByPage;
 
         $nbTotal = $sortiesRepository->count();
-        $sorties = $sortiesRepository->findSortiePaginer($nbByPage,$offset);
+
+
+// recuperation du site de la personne connectée
+        $siteId = $this->getUser()->getSite()->getId();
+
+        $sorties = $sortiesRepository->findSortiePaginer($nbByPage,$offset,$siteId);
+
+        $form = $this->createForm(FiltreType::class, $filtre);
+        $form->handleRequest($request);
+
+// Recupération des information des filtres
+        $filtre = $form->getData();
+
+        if ($form->isSubmitted() ) {
+
+            $sorties = $sortiesRepository->findSortiePaginerAvecFiltre($nbByPage,$offset,$siteId,$filtre);
+        }
+
 
         return $this->render('sorties/index.html.twig', [
             'sorties' => $sorties,
             'page' => $page,
             'nbPagesMax' => ceil($nbTotal / $nbByPage),
+            'form_filtre' => $form,
         ]);
     }
 
