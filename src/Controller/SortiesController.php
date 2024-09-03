@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Lieux;
 use App\Entity\Sites;
 use App\Entity\Sorties;
+use App\Form\FiltreType;
 use App\Form\LieuxType;
 use App\Form\SortiesType;
 use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
+use App\Repository\UserRepository;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,16 +22,19 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sorties')]
 class SortiesController extends AbstractController
 {
-    #[Route('/{page}/list', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
-    public function index(SortiesRepository $sortiesRepository, int $page): Response
+    #[Route('/{page}/list', name: 'app_sorties_index', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET','POST'])]
+    public function index(Request $request,
+                          SortiesRepository $sortiesRepository,
+                          UserRepository $userRepository,
+                          int $page
+    ): Response
     {
 
         $filtre = [];
 
-    // gestion de la pagination
+        // gestion de la pagination
         $nbByPage = 25;
         $offset = ($page-1) * $nbByPage;
-
         $nbTotal = $sortiesRepository->count();
 
 
@@ -60,7 +65,7 @@ class SortiesController extends AbstractController
 
     #[Route('/new', name: 'app_sorties_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
-        {
+    {
         $sortie = new Sorties();
         $lieu = new Lieux();
         $sortie->setUser($this->getUser());
@@ -102,7 +107,6 @@ class SortiesController extends AbstractController
     {
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
-        $sortieService->postLoad($sortie);
 
         $lieu = new Lieux();
         $formLieu = $this->createForm(LieuxType::class, $lieu);
