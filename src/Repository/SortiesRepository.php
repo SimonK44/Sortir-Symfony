@@ -62,20 +62,52 @@ class SortiesRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->setFirstResult($offset);
 
+//Ajout du filtre sur le nom
         if ($filtre['nom']) {
             $q->andWhere('s.nom LIKE :nom')
               ->setParameter(':nom', '%'.$filtre['nom'].'%');
         }
+
+//Ajout du filtre sur la date de début
         if ($filtre['dateDebut']) {
             $q->andWhere('s.dateDebut >= :dateDebut')
               ->setParameter(':dateDebut', $filtre['dateDebut']);
         }
+
+//Ajout du filtre sur la date de fin
         if ($filtre['dateFin']) {
             $q->andWhere('s.dateDebut <= :dateFin')
                 ->setParameter(':dateFin', $filtre['dateFin']);
         }
 
-           $q->getQuery();
+//Ajout du filtre sur les sorties organisees par la personne connectée
+        if ($filtre['CheckOrga']) {
+            $q->andWhere('s.user = :user')
+              ->setParameter(':user', $filtre['user']);
+        }
+
+//Ajout du filtre sur les sorties où la personne connectée est inscrites
+        if ($filtre['CheckInscript']) {
+            $q->leftJoin('s.users', 'u')
+              ->andWhere('u.id = :users')
+              ->setParameter(':users', $filtre['user']);
+        }
+
+//Ajout du filtre sur les sorties où la personne connectée n'est pas inscrites
+            if ($filtre['CheckPasInscript']) {
+                var_dump($filtre['user']);
+                $q->leftJoin('s.users', 'u')
+                  ->andWhere('u.id is null');
+            }
+
+//Ajout du filtre sur les sorties passees
+        if ($filtre['CheckPasse']) {
+            $q->andWhere('s.dateDebut <> :dateDebut')
+              ->setParameter(':dateDebut', new \DateTime());
+        }
+
+// on fait tourner la requete
+                $q->getQuery();
 
         return new Paginator($q);
     }

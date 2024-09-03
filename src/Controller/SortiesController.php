@@ -46,10 +46,14 @@ class SortiesController extends AbstractController
         $form = $this->createForm(FiltreType::class, $filtre);
         $form->handleRequest($request);
 
-// Recupération des information des filtres
-        $filtre = $form->getData();
+
 
         if ($form->isSubmitted() ) {
+            // Recupération des information des filtres
+            $filtre = $form->getData();
+
+// on ajoute le user dans les filtres
+            $filtre['user'] = $this->getUser()->getId();
 
             $sorties = $sortiesRepository->findSortiePaginerAvecFiltre($nbByPage,$offset,$siteId,$filtre);
         }

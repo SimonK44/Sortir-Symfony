@@ -6,6 +6,7 @@ use App\Entity\Lieux;
 use App\Repository\LieuxRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,12 +22,30 @@ class FiltreType extends AbstractType
             'required' => false
             ])
             ->add('dateDebut', DateTimeType::class, [
+                'required' => false,
                 'label' => 'Entre : ',
                 'widget' => 'single_text'
             ])
             ->add('dateFin', DateTimeType::class, [
+                'required' => false,
                 'label' => 'Et : ',
                 'widget' => 'single_text'
+            ])
+            ->add('CheckOrga', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Sortie où je suis organisateur/trice'
+                ])
+            ->add('CheckInscript', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Sortie où je suis inscrit/e'
+            ])
+            ->add('CheckPasInscript', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Sortie où je ne suis pas inscrit/e'
+            ])
+            ->add('CheckPasse', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Sortie passées'
             ])
             ->add('submit', SubmitType::class,[
                 'label' => 'Rechercher'
