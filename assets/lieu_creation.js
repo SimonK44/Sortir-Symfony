@@ -37,7 +37,6 @@ document.getElementById('save-lieu').addEventListener('click', function() {
                 alert('Nouveau lieu créé avec succès');
 
                 // Fermer la modal
-
                 // document.getElementById('newLieuModal').close = true;
             } else {
                 alert('Veuillez vérifier vos données');

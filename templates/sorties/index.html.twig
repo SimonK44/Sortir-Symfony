@@ -5,7 +5,9 @@
 {% block body %}
     <h1 class="text-center">Liste des sorties</h1>
     <br>
-
+    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_new') }}">Ajout</a>
+    <br>
+    <br>
 
 <h2>Filtrer les sorties</h2>
 
@@ -58,5 +60,5 @@
         <a href="{{ path('app_sorties_index', {'page' : page + 1}) }}"><img class="gif2"  src="{{  asset('images/pagesuivante.gif') }}"></a>
     {% endif %}
    <br>
-    <a class="btn btn-outline-info btn-sm" href="{{ path('app_sorties_new') }}">Ajout</a>
+
 {% endblock %}

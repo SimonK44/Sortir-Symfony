@@ -2,78 +2,65 @@
 
 namespace App\Service;
 
-use App\Entity\Sorties;
 use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
+use DateTime;
 
 class SortieService
 {
-
-    public function __construct(private readonly EtatsRepository $etatsRepository, SortiesRepository $sortiesRepository)
-    {}
-
-
-    public function postLoad(Sorties $sorties): void
-    {
-        $this->etatEnCreation($sorties);
-        $this->etatOuverte($sorties);
-        $this->etatCloturee($sorties);
-        $this->etatActiviteEnCours($sorties);
-        $this->etatActiviteTerminee($sorties);
-//        $this->etatActiviteHistorisee($sorties);
+    public function __construct(EtatsRepository $etatsRepository, SortiesRepository $sortiesRepository) {
+        $this->sortiesRepository = $sortiesRepository;
+        $this->etatsRepository = $etatsRepository;
     }
 
-    public function etatEnCreation(Sorties $sorties): void
+    public function updateEtatSortie()
     {
-        $etat = $this->etatsRepository->findOneBy(['id' => 1]);
-        if (!$sorties->getIsPublished()) {
-            $sorties->setEtat($etat);
+        $now = new DateTime("now");
+        $unMoisAuparavant = new DateTime("now");
+        $unMoisAuparavant->modify('-1 month');
+
+        $sorties = $this->sortiesRepository->findAll();
+
+        $etatEnCreation = $this->etatsRepository->find(1);
+        $etatOuverte = $this->etatsRepository->find(2);
+        $etatCloturee = $this->etatsRepository->find(3);
+        $etatActiviteEnCours = $this->etatsRepository->find(4);
+        $etatActiviteTerminee = $this->etatsRepository->find(5);
+        $etatActiviteHistorisee = $this->etatsRepository->find(6);
+
+        foreach ($sorties as $sortie) {
+            $debutSortiePlusDuree = clone $sortie->getDateDebut();
+            $debutSortiePlusDuree->modify("+{$sortie->getDuree()} minutes");
+
+            //Etat activitée historisée
+            if ($unMoisAuparavant > ($sortie->getDateDebut())) {
+                return $sortie->setEtat($etatActiviteHistorisee);
+            }
+
+            //Etat activitée terminée
+            if ($now > $sortie->getDateDebut()) {
+                return $sortie->setEtat($etatActiviteTerminee);
+            }
+
+            //Etat activitée en cours
+            if ($sortie->getDateDebut() < $now && $debutSortiePlusDuree > $now && $sortie->getDateDebut() > $unMoisAuparavant) {
+                return $sortie->setEtat($etatActiviteEnCours);
+            }
+
+            //Etat clôturée
+            if (($sortie->getDateCloture() < $now && $sortie->getDateDebut() > $now) || count($sortie->getUsers()) == $sortie->getNbInscriptionsMax()) {
+                return $sortie->setEtat($etatCloturee);
+            }
+
+            //Etat ouverte
+            if (($sortie->getDateCloture() < $now || count($sortie->getUsers()) < $sortie->getNbInscriptionsMax()) && ($sortie->getIsPublished())) {
+                return $sortie->setEtat($etatOuverte);
+            }
+
+            //Etat en création
+            if (!$sortie->getIsPublished()) {
+                return $sortie->setEtat($etatEnCreation);
+            }
         }
     }
-
-    public function etatOuverte(Sorties $sorties): void
-    {
-        $etat = $this->etatsRepository->findOneBy(['id' => 2]);
-
-        if ($sorties->getDateCloture() > new \DateTime() && count($sorties->getUsers()) < $sorties->getNbInscriptionsMax()) {
-           $sorties->setEtat($etat);
-        }
-    }
-
-    public function etatCloturee(Sorties $sorties)
-    {
-        $etat = $this->etatsRepository->findOneBy(['id' => 3]);
-
-        if (new \DateTime() > $sorties->getDateCloture() && count($sorties->getUsers()) == $sorties->getNbInscriptionsMax()) {
-            $sorties->setEtat($etat);
-        }
-    }
-
-    public function etatActiviteEnCours(Sorties $sorties)
-    {
-        $etat = $this->etatsRepository->findOneBy(['id' => 4]);
-
-        if (new \DateTime("now") == $sorties->getDateDebut()) {
-            $sorties->setEtat($etat);
-        }
-    }
-
-    public function etatActiviteTerminee(Sorties $sorties)
-    {
-        $etat = $this->etatsRepository->findOneBy(['id' => 5]);
-
-        if (new \DateTime("now") > $sorties->getDateDebut()) {
-            $sorties->setEtat($etat);
-        }
-    }
-
-//    public function etatActiviteHistorisee(Sorties $sorties)
-//    {
-//        $etat = $this->etatsRepository->findOneBy(['id' => 6]);
-//
-//        if ((new \DateTime()->add  new \DateTime() > ($sorties->getDateDebut()->strtotime('d-m-Y' ,'+1 month')))) {
-//            $sorties->setEtat($etat);
-//        }
-//    }
-
 }

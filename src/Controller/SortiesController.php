@@ -26,6 +26,7 @@ class SortiesController extends AbstractController
     public function index(Request $request,
                           SortiesRepository $sortiesRepository,
                           UserRepository $userRepository,
+                          SortieService $sortieService,
                           int $page
     ): Response
     {
@@ -35,6 +36,7 @@ class SortiesController extends AbstractController
         // gestion de la pagination
         $nbByPage = 25;
         $offset = ($page-1) * $nbByPage;
+
         $nbTotal = $sortiesRepository->count();
 
 
@@ -59,6 +61,8 @@ class SortiesController extends AbstractController
         }
 
 
+        $sortieService->updateEtatSortie();
+
         return $this->render('sorties/index.html.twig', [
             'sorties' => $sorties,
             'page' => $page,
@@ -69,12 +73,11 @@ class SortiesController extends AbstractController
 
     #[Route('/new', name: 'app_sorties_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SortieService $sortieService): Response
-    {
+        {
         $sortie = new Sorties();
         $lieu = new Lieux();
         $sortie->setUser($this->getUser());
         $sortie->setSite($sortie->getUser()->getSite());
-        $sortieService->postLoad($sortie);
 
         $formLieu = $this->createForm(LieuxType::class, $lieu);
         $form = $this->createForm(SortiesType::class, $sortie);
@@ -82,6 +85,7 @@ class SortiesController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortieService->updateEtatSortie();
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -116,7 +120,7 @@ class SortiesController extends AbstractController
         $formLieu = $this->createForm(LieuxType::class, $lieu);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->etatOuverte($sortie);
+            $sortieService->updateEtatSortie();
             $entityManager->flush();
 
             $this->addFlash('success', 'Sortie modifiée !');
