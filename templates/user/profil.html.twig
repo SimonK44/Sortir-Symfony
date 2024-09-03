@@ -5,6 +5,13 @@
 {% block body %}
 
     <h1>Mon Profil</h1>
+    {% if(user.userphoto)%}
+        <img class="userPhoto" src="{{ asset('uploads/userPhoto/' ~user.userPhoto) }}" alt="userPhoto">
+    {% else %}
+        <img class="userPhoto" src="{{ asset('uploads/userPhoto/' ~user.userPhoto) }}" alt="userPhoto">
+    {% endif %}
+
+
     <table class="table">
         <tbody>
             <tr>
