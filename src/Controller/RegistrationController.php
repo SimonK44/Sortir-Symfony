@@ -129,6 +129,17 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/{id}', name : 'app_profil_participant', methods: ['GET'])]
+    public function participantProfil(Request $request, UserRepository $userRepository, User $user): Response
+    {
+        $userId = $userRepository->findByID($user->getId());
+
+        return $this->render('user/profil.html.twig', [
+            'userId' => $userId,
+            'user' => $user,
+        ]);
+    }
+
     #[Route('/profil/edit', name : 'app_profil_modification')]
     public function modificationProfil(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {

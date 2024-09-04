@@ -61,7 +61,6 @@ class SortiesController extends AbstractController
             $sorties = $sortiesRepository->findSortiePaginerAvecFiltre($nbByPage,$offset,$siteId,$filtre);
         }
 
-
         $sortieService->updateEtatSorties();
 
         return $this->render('sorties/index.html.twig', [

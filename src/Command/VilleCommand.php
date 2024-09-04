@@ -59,7 +59,4 @@ class VilleCommand extends Command
         $output->writeln('Users imported successfully');
         return Command::SUCCESS;
     }
-
-
-
 }
