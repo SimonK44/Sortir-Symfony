@@ -8,7 +8,6 @@ document.getElementById('sorties_lieux').addEventListener('change', function() {
                 if (data.success) {
                     let details = `Rue : ${data.rue}\nLatitude : ${data.latitude}\nLongitude : ${data.longitude}\nVille : ${data.ville}`;
                     document.getElementById('sorties_lieuDetails').value = details;
-                    // document.querySelector('#lieuDetails').value = details;
                 } else {
                     document.getElementById('sorties_lieuDetails').value = 'Détails non disponibles';
                 }
@@ -37,7 +36,14 @@ document.getElementById('save-lieu').addEventListener('click', function() {
                 alert('Nouveau lieu créé avec succès');
 
                 // Fermer la modal
-                // document.getElementById('newLieuModal').close = true;
+                const modal = document.getElementById('newLieuModal');
+                modal.style.display = "none";
+                document.body.classList.remove('modal-open');
+                const backdrops = document.getElementsByClassName('modal-backdrop');
+                for (let i = 0; i < backdrops.length; i++) {
+                    backdrops[i].remove();
+                }
+                window.location.reload();
             } else {
                 alert('Veuillez vérifier vos données');
             }
