@@ -53,14 +53,9 @@ class RegistrationController extends AbstractController
             if ($userPhoto) {
                 $newFilename = $fileUploader->upload($userPhoto);
                 $user->setUserPhoto($newFilename);
-            }
-
-            try {
                 $userPhoto->move($this->getParameter('photosDirectory'), $newFilename);
-            } catch (FileException $e) {
+                $user->setUserPhoto($newFilename);
             }
-            $user->setUserPhoto($newFilename);
-
 
 
         $user->setPassword(
@@ -73,6 +68,7 @@ class RegistrationController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+
         // generate a signed url and email it to the user
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())
@@ -84,8 +80,12 @@ class RegistrationController extends AbstractController
 
         // do anything else you need here, like send an email
 
-        return $this->redirectToRoute('app_login');
-    }
+            $this->addFlash('success', 'Veuillez valider votre adresse e-mail en cliquant sur le lien que vous avez reçu par e-mail !');
+
+            return $this->redirectToRoute('app_login');
+
+
+        }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
