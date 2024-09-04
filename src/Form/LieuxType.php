@@ -25,6 +25,7 @@ class LieuxType extends AbstractType
             ->add('ville', EntityType::class, [
                 'class' => Villes::class,
                 'choice_label' => 'nomVille',
+                'placeholder' => ' -- Choisissez une ville -- ',
                 'query_builder' => function (VillesRepository $VillesRepository) {
                     return $VillesRepository->createQueryBuilder('v')->orderBy('v.nomVille', 'ASC');
                 }

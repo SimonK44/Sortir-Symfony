@@ -103,6 +103,7 @@ setTimeout(function() {
 
                     if (!villeTrouvee) {
                         // message d'erreur si la ville n'est pas dans la liste
+                        selectVille.selectedIndex = 0;
                         document.getElementById('error_message').style.display = 'block';
                     } else {
                         // message d'erreur caché si ville trouvée
