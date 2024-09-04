@@ -61,7 +61,7 @@ class SortiesController extends AbstractController
         }
 
 
-        $sortieService->updateEtatSortie();
+        $sortieService->updateEtatSorties();
 
         return $this->render('sorties/index.html.twig', [
             'sorties' => $sorties,
@@ -83,9 +83,8 @@ class SortiesController extends AbstractController
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->updateEtatSortie();
+            $sortieService->updateEtatSortie($sortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -120,7 +119,7 @@ class SortiesController extends AbstractController
         $formLieu = $this->createForm(LieuxType::class, $lieu);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->updateEtatSortie();
+            $sortieService->updateEtatSortie($sortie);
             $entityManager->flush();
 
             $this->addFlash('success', 'Sortie modifiée !');

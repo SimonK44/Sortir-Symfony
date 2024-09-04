@@ -53,7 +53,7 @@ class SortirFixtures extends Fixture
     {
         $faker = Factory::create('fr-FR');
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $sortie = new Sorties();
 
             $etatr = $this->etatsRepository->find(mt_rand(1,7));
@@ -64,10 +64,10 @@ class SortirFixtures extends Fixture
 
 
             $sortie->setNom($faker->words(1, true))
-                ->setDateDebut($faker->dateTimeBetween(new \DateTime('-10 day'), new \DateTime('1 year')))
-                ->setDuree(mt_rand(1, 10))
+                ->setDateDebut($faker->dateTimeBetween(new \DateTime('-10 day'), new \DateTime('2 months')))
+                ->setDuree(mt_rand(60, 360))
                 ->setIsPublished($faker->randomDigitNotNull())
-                ->setDateCloture($faker->dateTimeBetween($sortie->getDateDebut(),new \DateTime('+2 year')))
+                ->setDateCloture($faker->dateTimeBetween($sortie->getDateDebut(),new \DateTime('+2 months')))
                 ->setnbInscriptionsMax(mt_rand(2, 20))
                 ->setDescriptionInfos($faker->words(8, true))
                 ->setEtatSortie(2)

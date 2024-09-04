@@ -24,14 +24,14 @@ class LieuxController extends AbstractController
     }
 
     #[Route('/details/{id}', name: 'app_lieux_details', methods: ['GET'])]
-    public function details(Lieux $lieux): Response
+    public function details(Lieux $lieux, LieuxRepository $lieuxRepository)
     {
         return $this->json([
             'success' => true,
             'rue' => $lieux->getRue(),
             'latitude' => $lieux->getLatitude(),
             'longitude' => $lieux->getLongitude(),
-            'ville' => $lieux->getVille()->getNomVille(),
+            'ville' => $lieux->getVille()->getNomVille()
         ]);
     }
 
