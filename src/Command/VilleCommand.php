@@ -3,55 +3,63 @@
 namespace App\Command;
 
 
-use Symfony\Component\Console\Input\InputArgument;
+use App\Entity\Villes;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Finder\Finder;
 
-class  ImportCountriesCommand extends Container
+#[AsCommand(
+    name: 'app:create-ville',
+    description: 'insertion nouvelle ville',
+    hidden: false,
+    aliases: ['app:add-ville']
+)]
+class VilleCommand extends Command
 {
-    // change these options about the file to read
-    private $csvParsingOptions = array(
-        'finder_in' => 'app/Resources/',
-        'finder_name' => 'Ville.csv',
-        'ignoreFirstLine' => true
-    );
+    protected static $defaultName = 'app:import-user-csv';
+    private $entityManager;
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        // use the parseCSV() function
-        $csv = $this->parseCSV();
+        $this->entityManager = $entityManager;
+        parent::__construct();
     }
 
-    /**
-     * Parse a csv file
-     *
-     * @return array
-     */
-    private function parseCSV()
+    protected function configure()
     {
-        $ignoreFirstLine = $this->csvParsingOptions['ignoreFirstLine'];
+        $this
+            ->setName(self::$defaultName);
+    }
 
-        $finder = new Finder();
-        $finder->files()
-            ->in($this->csvParsingOptions['finder_in'])
-            ->name($this->csvParsingOptions['finder_name'])
-        ;
-        foreach ($finder as $file) { $csv = $file; }
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $filePath = 'app/Ressources/Ville.csv';
 
-        $rows = array();
-        if (($handle = fopen($csv->getRealPath(), "r")) !== FALSE) {
-            $i = 0;
-            while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
-                $i++;
-                if ($ignoreFirstLine && $i == 1) { continue; }
-                $rows[] = $data;
-            }
-            fclose($handle);
+        if(!file_exists($filePath)){
+            $output->writeln('File not found');
+            return Command::FAILURE;
         }
 
-        return $rows;
+        $csv = array_map('str_getcsv', file($filePath));
+        $header = array_shift($csv);
+
+        foreach ($csv as $row) {
+            $data = array_combine($header, $row);
+            var_dump($data);
+            $ville= new Villes();
+            $ville->setNomVille($data['nom']);
+            $ville->setCodePostal($data['codePostal']);
+
+
+            $this->entityManager->persist($ville);
+        }
+        $this->entityManager->flush();
+        $output->writeln('Users imported successfully');
+        return Command::SUCCESS;
     }
+
+
+
 }
