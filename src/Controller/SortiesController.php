@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/sorties')]
@@ -101,17 +102,27 @@ class SortiesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sorties_show', methods: ['GET'])]
-    public function show(Sorties $sortie): Response
+    public function show(Sorties $sortie, SortieService $sortieService): Response
     {
-        return $this->render('sorties/show.html.twig', [
-            'sortie' => $sortie,
-        ]);
+        if($sortieService->archiveSortie($sortie)){
+            $this->addFlash('danger', 'Cette sortie n\'est plus consultable');
+            return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            return $this->render('sorties/show.html.twig', [
+                'sortie' => $sortie,
+            ]);
+        }
     }
 
     #[Route('/{id}/edit', name: 'app_sorties_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sorties $sortie, EntityManagerInterface $entityManager,
                          SortieService $sortieService): Response
     {
+        if($sortieService->archiveSortie($sortie)){
+            $this->addFlash('danger', 'Cette sortie n\'est plus modifiable');
+            return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(SortiesType::class, $sortie);
         $form->handleRequest($request);
 

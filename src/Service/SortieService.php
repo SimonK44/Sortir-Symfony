@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Sorties;
 use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use DateTime;
@@ -110,5 +111,9 @@ class SortieService
             }
 
         }
+    }
+
+    public function archiveSortie(Sorties $sortie) {
+        return $sortie->getEtat()->getId() === 6;
     }
 }
