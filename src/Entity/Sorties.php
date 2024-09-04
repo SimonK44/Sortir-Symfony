@@ -26,7 +26,7 @@ class Sorties
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
+//    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(nullable: true)]
@@ -36,7 +36,7 @@ class Sorties
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[LessThan(propertyPath: 'dateDebut', message: 'Postérieur à la date du début de la sortie !')]
-    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
+//    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateCloture = null;
 
     #[ORM\Column]
