@@ -1,5 +1,8 @@
 <?php
 
+// lancer la commande avec :
+//                            php bin/console app:create-ville
+
 namespace App\Command;
 
 
@@ -18,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class VilleCommand extends Command
 {
-    protected static $defaultName = 'app:import-user-csv';
+    protected static $defaultName = 'app:create-ville';
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
