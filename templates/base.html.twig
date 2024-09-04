@@ -21,7 +21,7 @@
         <nav>
              <ul>
                  {% if is_granted('IS_AUTHENTICATED') %}
-                 <li>Bonjour {{ app.user.userIdentifier }}</li>
+                 <li style="padding:5px;color: #0f5132;text-decoration-line:underline">Bonjour {{ app.user.pseudo }}</li>
                  {% endif %}
 
 
