@@ -1,0 +1,4 @@
+id,email,roles,password,pseudo,nom,prenom,telephone,actif,is_verified,site_id,        user_photo
+,heejung.kim2028@campus-eni.fr,,$2y$13$ka/BKOJSR.UK6VEBZ2pWBuTEp9FuVKm506fgBLgoqrpS6.FyeA9LW,superheejung5,KIM,HEEJUNG1,6111111112,1,1,1,
+,heejung.kim2029@campus-eni.fr,,$2y$13$ka/BKOJSR.UK6VEBZ2pWBuTEp9FuVKm506fgBLgoqrpS6.FyeA9LW,superheejung6,KIMM,HEEJUNGG2,6111111112,1,1,2,
+,heejung.kim2030@campus-eni.fr,,$2y$13$ka/BKOJSR.UK6VEBZ2pWBuTEp9FuVKm506fgBLgoqrpS6.FyeA9LW,superheejung7,KIMMM,HEEJUNGGG3,6111111112,1,1,3,
