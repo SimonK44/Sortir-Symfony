@@ -54,41 +54,72 @@ document.getElementById('save-lieu').addEventListener('click', function() {
 let map;
 let marker;
 
-if (!map) {
-    // Initialise la carte
-    map = L.map('map').setView([47.216671, -1.55], 13); // Coordonnées de Nantes par défaut
+setTimeout(function() {
+    if (!map) {
+        // Initialise la carte
+        map = L.map('map').setView([47.216671, -1.55], 13); // Coordonnées de Nantes par défaut
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
 
-    // Ajout de l'écouteur pour les clics sur la carte
-    map.on('click', function(e) {
-        // Ajoute un marqueur à l'emplacement du clic
-        if (marker) {
-            marker.setLatLng(e.latlng);
-        } else {
-            marker = L.marker(e.latlng).addTo(map);
-        }
+        // Ajout de l'écouteur pour les clics sur la carte
+        map.on('click', function (e) {
+            // Ajoute un marqueur à l'emplacement du clic
+            if (marker) {
+                marker.setLatLng(e.latlng);
+                marker.setIcon(customIcon);
+            } else {
+                marker = L.marker(e.latlng, { icon: customIcon }).addTo(map);
+            }
 
-        // Récupère la latitude et la longitude
-        const lat = e.latlng.lat;
-        const lng = e.latlng.lng;
+            // Récupère la latitude et la longitude
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
 
-        // Appel à l'API pour récupérer les informations d'adresse
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
-            .then(response => response.json())
-            .then(data => {
-                const address = data.address;
-                // Afficher les informations dans le formulaire
-                document.getElementById('lieux_rue').value = address.road || 'N/A';
-                document.getElementById('lieux_latitude').value = lat || 'N/A';
-                document.getElementById('lieux_longitude').value = lng || 'N/A';
+            // Appel à l'API pour récupérer les informations d'adresse
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.address;
+                    const ville = address.city || address.town || address.village || '';
+                    let selectVille = document.getElementById('lieux_ville');
+                    let villeTrouvee = false;
 
-            })
-            .catch(error => console.error('Erreur:', error));
-    });
-} else {
-    map.invalidateSize();
-}
+                    const options = selectVille.options;
+                    // Afficher les informations dans le formulaire
+                    document.getElementById('lieux_rue').value = address.road || 'N/A';
+                    document.getElementById('lieux_latitude').value = lat || 'N/A';
+                    document.getElementById('lieux_longitude').value = lng || 'N/A';
+
+                    for (let i = 0; i < options.length; i++) {
+                        if (options[i].innerText.toLowerCase() === ville.toLowerCase()) {
+                            selectVille.selectedIndex = options[i].index;
+                            villeTrouvee = true;
+                            break;
+                        }
+                    }
+
+                    if (!villeTrouvee) {
+                        // message d'erreur si la ville n'est pas dans la liste
+                        document.getElementById('error_message').style.display = 'block';
+                    } else {
+                        // message d'erreur caché si ville trouvée
+                        document.getElementById('error_message').style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Erreur:', error));
+                });
+    } else {
+        map.invalidateSize();
+    }
+}, 2000);
+
+// icône perso
+const customIcon = L.icon({
+    iconUrl: '../sortirLogo.png',
+    iconSize: [38, 38], // [largeur, hauteur]
+    iconAnchor: [19, 38], // base de l'icône
+    popupAnchor: [0, -38] // Point d'ancrage du popup par rapport à l'icône
+});

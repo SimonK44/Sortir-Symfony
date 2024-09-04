@@ -20,6 +20,7 @@
                     {{ form_row(formLieu.longitude) }}
                     {{ form_row(formLieu.ville) }}
                     {{ form_end(formLieu) }}
+                    <p id="error_message" style="color: red; display: none;">La ville sélectionnée n'est pas dans la liste.</p>
                     <button type="button" class="btn btn-primary" id="save-lieu">Enregistrer</button>
                 </form>
             </div>

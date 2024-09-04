@@ -11,8 +11,8 @@
 
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
         <script src="{{ asset('filtre_sortie.js') }}" defer></script>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     {% endblock %}
 </head>
 <body>
