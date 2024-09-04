@@ -49,3 +49,46 @@ document.getElementById('save-lieu').addEventListener('click', function() {
             }
         });
 });
+
+// Initialisation de la carte
+let map;
+let marker;
+
+if (!map) {
+    // Initialise la carte
+    map = L.map('map').setView([47.216671, -1.55], 13); // Coordonnées de Nantes par défaut
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Ajout de l'écouteur pour les clics sur la carte
+    map.on('click', function(e) {
+        // Ajoute un marqueur à l'emplacement du clic
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+
+        // Récupère la latitude et la longitude
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        // Appel à l'API pour récupérer les informations d'adresse
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+            .then(response => response.json())
+            .then(data => {
+                const address = data.address;
+                // Afficher les informations dans le formulaire
+                document.getElementById('lieux_rue').value = address.road || 'N/A';
+                document.getElementById('lieux_latitude').value = lat || 'N/A';
+                document.getElementById('lieux_longitude').value = lng || 'N/A';
+
+            })
+            .catch(error => console.error('Erreur:', error));
+    });
+} else {
+    map.invalidateSize();
+}

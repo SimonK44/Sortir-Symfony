@@ -8,6 +8,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div id="mapModal" style="display: block;">
+                    <div id="map" style="height: 400px; width: 100%;"></div>
+                </div>
+                <br><br>
                 <form id="new-lieu-form">
                     {{ form_start(formLieu) }}
                     {{ form_row(formLieu.nomLieu) }}
