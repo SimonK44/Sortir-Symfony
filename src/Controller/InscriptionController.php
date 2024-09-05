@@ -46,6 +46,7 @@ class InscriptionController extends AbstractController
         $user =$UserRepository->find($idUser);
         $sortie = $sortiesRepository->find($idSortie);
 
+//envois mail
        $email= (new TemplatedEmail())
            ->from(new Address('mail@sortir.com', 'Eni Sortir Bot'))
            ->to($user->getEmail())
@@ -80,6 +81,8 @@ class InscriptionController extends AbstractController
 
         $user =$UserRepository->find($idUser);
         $sortie = $sortiesRepository->find($idSortie);
+
+ //envois mail
         $email= (new TemplatedEmail())
             ->from(new Address('mail@sortir.com', 'Eni Sortir Bot'))
             ->to($user->getEmail())
@@ -117,7 +120,7 @@ class InscriptionController extends AbstractController
       //      $this->addFlash('notice','les participants ont recu un Email');
             $this->addFlash('notice',$texteFlash);
 
-
+//envois mail
             $email= (new TemplatedEmail())
                 ->from(new Address('mail@sortir.com', 'Eni Sortir Bot'))
                 ->to($participant->getEmail())
