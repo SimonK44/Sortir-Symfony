@@ -19,17 +19,20 @@ class FiltreType extends AbstractType
         $builder
             ->add('nom', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
             'label' => 'Nom de la sortie contient : ',
+                'attr'=> ['class' => 'form-filtre'],
             'required' => false
             ])
             ->add('dateDebut', DateTimeType::class, [
                 'required' => false,
                 'label' => 'Entre : ',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                 'attr'=> ['class' => 'form-filtre'],
             ])
             ->add('dateFin', DateTimeType::class, [
                 'required' => false,
                 'label' => 'Et : ',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr'=> ['class' => 'form-filtre'],
             ])
             ->add('CheckOrga', CheckboxType::class, [
                 'required' => false,
@@ -48,7 +51,9 @@ class FiltreType extends AbstractType
                 'label' => 'Sortie passées'
             ])
             ->add('submit', SubmitType::class,[
-                'label' => 'Rechercher'
+                'label' => 'Rechercher',
+                'attr'=> [
+                    'class' => 'button-vert']
             ])
         ;
     }
