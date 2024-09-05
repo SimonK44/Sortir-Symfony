@@ -45,7 +45,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos conditions.',
                     ]),
                 ],
             ])
@@ -62,17 +62,17 @@ class RegistrationFormType extends AbstractType
                     'label'=> 'Mot de Passe',
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Please enter a password',
+                            'message' => 'Veuillez entrer un mot de passe',
                         ]),
                         new PasswordStrength([
                             'minScore'=> 1,
-                            'message'=>'trop faible votre mdp',
+                            'message'=>'Votre mot de passe est trop faible',
                         ]),
                     ],
                 ],
                 'second_options' => [
-                    'label'=>'Confirmez votre Mot de Passe',
-                    'invalid_message' => 'Les mdp ne correspondent pas'
+                    'label'=>'Confirmez votre mot de passe',
+                    'invalid_message' => 'Les mots de passe ne correspondent pas'
                 ]
             ])
             ->add('userPhoto', FileType::class, [
@@ -87,7 +87,7 @@ class RegistrationFormType extends AbstractType
                             'image/png',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image type (jpg, jpeg, png, gif)',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide (jpg, jpeg, png, gif)',
                     ])
                 ],
             ])

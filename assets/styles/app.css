@@ -1,28 +1,14 @@
+/* la base de css */
+
 html, body {
-    height: 100%;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
+    /*     height: 100%;    */
 }
 
 body, tbody {
-    background-color: wheat;
-}
-body {
-    display : table;
-    width: 100%;
-
-}
-
-
-nav {
-    background-color : #ee7915;
-    height: 50px;
-}
-
-
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 5px;
+    background: #FFFFFF;
+    /* background-color: wheat;*/
 }
 
 a {
@@ -38,7 +24,7 @@ a {
 }
 
 a:hover {
-    color: #BC956B;
+    color: #1aaa92;
 }
 
 img {
@@ -48,18 +34,40 @@ img {
 
 h1, h2, h3, h4 {
     margin-top: 0;
+    color:  #1aaa92;
 }
 
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-
+h5{
+    color: #6c757d;
+    line-height:2rem
 }
 
-main {
-    flex: 1;
+/*
+==========================================
+============== Header ====================
+==========================================
+*/
+
+.position{
+    position: relative;
+    margin-top: 50px;
 }
+
+.logoPosition{
+    position: absolute;
+    top:10px;
+    left:30px;
+    width : 70px;
+    z-index: 7;
+}
+
+
+nav {
+     width: 100%;
+     background-color : #ee7915;
+     height: 50px;
+}
+
 
 nav div {
     display: flex;
@@ -70,7 +78,6 @@ nav div {
 nav ul {
     display: flex;
     justify-content:flex-end;
-
     list-style: none;
     padding-left: 0;
 }
@@ -81,25 +88,44 @@ nav li {
     font-weight: bolder;
 }
 
+.img_main{
+    height: 280px;
+}
+
+.login{
+    margin-top: 14px;
+    margin-right: 150px;
+    color:antiquewhite;
+}
+
+
+/*
 .sortirLogo {
     position: relative;
-    top: 20px; left:30px;
-    width : 150px;
+    width : 80px;
+    top: 20px; left:40px;
 }
-
-.headerLogo{
-    position: relative;
-    top:20px;left:20px;
-}
-
-
-.table td {
-    text-align: center;
-}
+ */
 
 .divblue {
     background-color : #1aaa92;
     height: 5px;
+}
+
+/*
+==========================================
+============== main ====================
+==========================================
+*/
+
+main {
+    /*display : table;*/
+    margin: auto;
+    max-width: 80%;
+}
+
+.table td {
+    text-align: center;
 }
 
 .tabledetail {
@@ -127,3 +153,73 @@ nav li {
     height: 300px;
 }
 
+.blague{
+    color:  #1aaa92;
+    margin-bottom: 0;
+    text-align: end;
+}
+
+.titre{
+    margin-bottom: 2rem ;
+    color : #1aaa92;
+}
+
+.text_sortie{
+    line-height:2rem
+}
+/*
+==========================================
+============== footer  ====================
+==========================================
+*/
+
+footer {
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #1aaa92;
+    color: #fff;
+}
+
+
+/*
+==========================================
+============== A supprimer  ====================
+==========================================
+*/
+
+
+ /*
+ body > .container {
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+ 
+ }
+  */
+/*
+ main {
+      flex: 1;
+ }
+ */
+
+
+
+
+
+/*
+ body {
+     display : table;
+     width: 100%;
+ }
+ */
+
+
+/*
+ .container {
+
+     max-width: 1200px;
+     margin: auto;
+     padding: 5px;
+ }
+ */

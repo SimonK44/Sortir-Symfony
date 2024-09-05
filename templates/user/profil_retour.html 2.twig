@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+    <h1>{{ user.pseudo }}</h1>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>prenom</th>
+            <td> {{ user.prenom }} </td>
+        </tr>
+        <tr>
+            <th>nom</th>
+            <td> {{ user.nom }} </td>
+        </tr>
+        <tr>
+            <th>telephone</th>
+            <td> {{ user.telephone }} </td>
+        </tr>
+        <tr>
+            <th>email</th>
+            <td> {{ user.email }} </td>
+        </tr>
+        <tr>
+            <th>site de rattachement</th>
+            <td>  {{ user.site.nomSite }} </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-outline-info btn-sm" href="{{ path('app_profil_retour') }}"> Retour </a>
+
+
+{% endblock %}
