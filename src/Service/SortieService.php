@@ -15,7 +15,7 @@ class SortieService
     }
 
 //    public function updateEtatSortie($sortie)
-    public function postLoad(sorties $sortie)
+    public function postLoad2(sorties $sortie)
     {
 
         $now = new DateTime("now");

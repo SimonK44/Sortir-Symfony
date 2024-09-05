@@ -22,13 +22,14 @@ class LieuxType extends AbstractType
             ->add('rue',TextType::class)
             ->add('latitude', TextType::class)
             ->add('longitude', TextType::class)
-            ->add('ville', EntityType::class, [
-                'class' => Villes::class,
-                'choice_label' => 'nomVille',
-                'placeholder' => ' -- Choisissez une ville -- ',
-                'query_builder' => function (VillesRepository $VillesRepository) {
-                    return $VillesRepository->createQueryBuilder('v')->orderBy('v.nomVille', 'ASC');
-                }
+            ->add('ville', VillesAutocompleteField::class, [
+//                'class' => Villes::class,
+//                'choice_label' => 'nomVille',
+//                'placeholder' => ' -- Choisissez une ville -- ',
+//                'autocomplete' => true,
+//                'query_builder' => function (VillesRepository $VillesRepository) {
+//                    return $VillesRepository->createQueryBuilder('v')->orderBy('v.nomVille', 'ASC');
+//                }
             ])
         ;
     }
