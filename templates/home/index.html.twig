@@ -3,15 +3,39 @@
 {% block title %}{{ parent() }} - Home{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur Sortie.com</h1>
-    <br>
+    {% if is_granted('IS_AUTHENTICATED') %}
+        <li>Bonjour {{ app.user.pseudo }}</li>
+    {% endif %}
 
-    <div> Blague du jour : {{ blague }}</div>
+    <div class="blague">
+        <h2>Blague du jour : </h2>
+        <p>{{ blague }} </p>
+    </div>
+
+    <h1 class="titre">Bienvenue sur Sortie.com</h1>
+
+    <p class="text_sortie"> Sortie.com est une plateforme de ENI dédiée à la création d'expériences inoubliables pour les équipes et les groupes. Nous vous offrons une variété de sorties passionnantes et enrichissantes, idéales pour renforcer l'aventure et la cohésion entre les participants.
+
+        Sur Sortie.com, chaque stagiaire a la possibilité de proposer des sorties. Vous êtes libre de vous inscrire à toutes les activités qui vous intéressent et de découvrir des expériences uniques créées par vos collègues. Nous garantissons des moments palpitants et émouvants, conçus pour enrichir vos interactions et créer des souvenirs mémorables.
+
+        Rejoignez-nous et vivez des aventures exceptionnelles avec Sortie.com !</p>
+
+    <div>
+        <h2>Présentation ENI </h2>
+        <p>Avec plus de 40 ans d’existence, ENI Ecole Informatique est une école dédiée à l’informatique, offrant des formations reconnues par l’État de niveau Bac +2 à Bac +5. </p>
+        <br>
+        <h5>ENI ÉCOLE en quelques chiffres</h5>
+        <p> 5 campus</p>
+        <p>  2000 apprenants en 2023</p>
+        <p> 1000 entreprises partenaires en 2023</p>
+        <a href="https://www.eni-ecole.fr/"><p>Plus info sur l'école</p></a>
+    </div>
+
     <br>
-    <div>Veuillez vous connecter</div>
+    <!--
     <p>latitude API : {{ latitude }} </p>
     <p>longitude API : {{ longitude }} </p>
-
+    -->
 
 {% endblock %}
 

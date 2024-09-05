@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -24,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(message: 'Veuillez entrer une adresse email valide.')]
     private ?string $email = null;
 
     /**
@@ -36,18 +39,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Length(
+        min: 8,
+        minMessage: 'Votre mot de passe doit comporter au moins {{ limit }} caractères.'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'Votre pseudo doit comporter au moins {{ limit }} caractères.'
+    )]
+    #[Assert\NotBlank(message: 'Veillez mettre votre pseudo.')]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Veillez mettre votre nom.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Veillez mettre votre prenom.')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 15, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^\+?[0-9\s\-]+$/',
+        message: 'Veuillez entrer un numéro de téléphone valide.'
+    )]
     private ?string $telephone = null;
 
     #[ORM\Column]

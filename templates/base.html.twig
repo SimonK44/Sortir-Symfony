@@ -16,43 +16,41 @@
     {% endblock %}
 </head>
 <body>
-
-
     <header>
-        <div class="headerLogo"><a href="{{ path('app_home') }}"><img class="sortirLogo"  src="{{  asset('images/sortirLogo.png') }}"></a></div>
-        <nav>
-             <ul>
-                 {% if is_granted('IS_AUTHENTICATED') %}
-                 <li style="padding:5px;color: #0f5132;text-decoration-line:underline">Bonjour {{ app.user.pseudo }}</li>
-                 {% endif %}
-
-
-{#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
-                 {% if is_granted('IS_AUTHENTICATED') %}
-                     <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
-                     <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
-                     <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
-                     <li style="padding:5px;"><a href="{{ path('app_profil') }}">Mon Profil</a></li>
-                     <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>
-                     {% else %}
-                         <img class="gif2"  src="{{  asset('images/clavier.gif') }}">
-                         <img class="gif"  src="{{  asset('images/fleche.gif') }}">
-                         <li style="padding:5px;"><a href="{{ path('app_login') }}">Se connecter</a></li>
-                 {% endif %}
-            </ul>
-        </nav>
+            <a href="{{ path('app_home') }}"><img class="logoPosition"  src="{{  asset('images/sortirLogo.png') }}"></a>
+            <nav class="position">
+                 <ul>
+    {#              <li style="padding:5px;"><a href="{{ path('app_home') }}">Accueil</a></li>#}
+                     {% if is_granted('IS_AUTHENTICATED') %}
+                         <li style="padding:5px;"><a href="{{ path('app_sorties_index') }}">Sorties</a></li>
+                         <li style="padding:5px;"><a href="{{ path('app_villes_index') }}">Ville</a></li>
+                         <li style="padding:5px;"><a href="{{ path('app_sites_index') }}">Site</a></li>
+                         <li style="padding:5px;"><a href="{{ path('app_profil') }}">Mon Profil</a></li>
+                         <li style="padding:5px;"><a href="{{ path('app_logout') }}">Se Déconnecter</a></li>
+                         {% else %}
+                            <!-- <img class="gif2"  src="{{  asset('images/clavier.gif') }}">
+                             <img class="gif"  src="{{  asset('images/fleche.gif') }}">
+                             -->
+                             <li class="login"><a href="{{ path('app_login') }}">Login</a></li>
+                     {% endif %}
+                </ul>
+            </nav>
+            <div class="divblue"></div>
+            <img class="img_main" src="{{  asset('images/header.png') }}">
     </header>
-    <div class="divblue"></div>
-
-<br>
- <div class="text-success">
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class = "alert alert-{{ label }}">{{ message }}</div>
-    {% endfor %}
-{% endfor %}
-</div>
-
-    {% block body %}{% endblock %}
+    <br>
+    <main>
+         <div class="text-success">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                <div class = "alert alert-{{ label }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% block body %}{% endblock %}
+    </main>
+    <footer>
+            <p> © 2024 ENI</p>
+    </footer>
 </body>
 </html>
