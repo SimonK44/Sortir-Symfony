@@ -8,17 +8,13 @@ use App\Entity\Sorties;
 use App\Form\FiltreType;
 use App\Form\LieuxType;
 use App\Form\SortiesType;
-use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use App\Repository\UserRepository;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/sorties')]
@@ -110,21 +106,23 @@ class SortiesController extends AbstractController
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
         } else {
 //  recherche si le bouton s' inscrire doit s' afficher
-        $canInscription = true;
+            $PersonneConnecter = $this->getUser();
+            $canInscription = $sortieService->peuxInscrire($sortie, $PersonneConnecter);
+        }
 // si la date de cloture est inferieur à la date du jour   => pas d' inscription
-            if ($sortie->getDateCloture() < new \DateTime('now')  ) {
-                $canInscription = false;
-            }
+//            if ($sortie->getDateCloture() < new \DateTime('now')  ) {
+//                $canInscription = false;
+//            }
 // si le nbre max de participant attends => pas d' inscription
-            if ($sortie->getNbInscriptionsMax() == count($sortie->getUsers()) ) {
-                $canInscription = false;
-            }
+//            if ($sortie->getNbInscriptionsMax() == count($sortie->getUsers()) ) {
+ //               $canInscription = false;
+//            }
 // recherche si la personne connecté est deja inscrite
-            foreach ($sortie->getUsers() as $participant) {
-                if ($participant == $this->getUser()) {
-                    $canInscription = false;
-                }
-            }
+//            foreach ($sortie->getUsers() as $participant) {
+//                if ($participant == $this->getUser()) {
+//                    $canInscription = false;
+//                }
+//            }
 
 
 
@@ -133,7 +131,7 @@ class SortiesController extends AbstractController
                 'canInscription' => $canInscription,
             ]);
         }
-    }
+
 
     #[Route('/{id}/edit', name: 'app_sorties_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sorties $sortie, EntityManagerInterface $entityManager,

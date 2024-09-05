@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Sorties;
+use App\Entity\User;
 use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use DateTime;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SortieService
 {
@@ -118,5 +120,27 @@ class SortieService
 
     public function archiveSortie(Sorties $sortie) {
         return $sortie->getEtat()->getId() === 6;
+    }
+
+    public function peuxInscrire(Sorties $sortie, UserInterface $PersonneConnecter) :bool
+       {
+           $canInscription = true;
+// si la date de cloture est inferieur à la date du jour   => pas d' inscription
+        if ($sortie->getDateCloture() < new \DateTime('now')  ) {
+            $canInscription = false;
+        }
+// si le nbre max de participant attends => pas d' inscription
+        if ($sortie->getNbInscriptionsMax() == count($sortie->getUsers()) ) {
+            $canInscription = false;
+        }
+// recherche si la personne connecté est deja inscrite
+        foreach ($sortie->getUsers() as $participant) {
+            if ($participant ==  $PersonneConnecter) {
+                $canInscription = false;
+            }
+        }
+        return $canInscription;
+
+
     }
 }
