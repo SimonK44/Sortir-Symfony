@@ -53,12 +53,14 @@
         </tbody>
 
     </table>
-    {% if page > 1 %}
-        <a href="{{ path('app_sorties_index', {'page' : page - 1}) }}"><img class="gif2"  src="{{  asset('images/pageprecedente.gif') }}"></a>
-    {% endif %}&nbsp;
-    {% if page < nbPagesMax %}
-        <a href="{{ path('app_sorties_index', {'page' : page + 1}) }}"><img class="gif2"  src="{{  asset('images/pagesuivante.gif') }}"></a>
-    {% endif %}
-   <br>
+    <div class="pagination">
+        {% if page > 1 %}
+            <a class="next" href="{{ path('app_sorties_index', {'page' : page - 1}) }}"> &laquo; Previous  </a>
+        {% endif %}
+
+        {% if page < nbPagesMax %}
+            <a class="previous" href="{{ path('app_sorties_index', {'page' : page + 1}) }}"> Next &raquo; </a>
+        {% endif %}
+    </div>
 
 {% endblock %}
