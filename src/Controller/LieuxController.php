@@ -48,8 +48,6 @@ class LieuxController extends AbstractController
 
             $this->addFlash('succes','Nouveau lieu créé avec succes 😊');
 
-//            return $this->redirectToRoute('app_lieux_index', ['lieu' => $lieu->getId()], Response::HTTP_SEE_OTHER);
-
             return new JsonResponse([
                 'success' => true,
                 'id' => $lieu->getId(),
@@ -64,11 +62,6 @@ class LieuxController extends AbstractController
         return new JsonResponse([
             'success' => false
         ], 400);
-
-//        return $this->render('lieux/new.html.twig', [
-//            'lieux' => $lieu,
-//            'form' => $form,
-//        ]);
     }
 
     #[Route('/{id}', name: 'app_lieux_show', methods: ['GET'])]

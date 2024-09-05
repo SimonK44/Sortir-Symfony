@@ -22,6 +22,16 @@ class VillesController extends AbstractController
         ]);
     }
 
+    #[Route('/details/{nomVille}', name: 'app_villes_details', methods: ['GET'])]
+    public function details(Villes $villes, VillesRepository $villesRepository)
+    {
+        return $this->json([
+            'success' => true,
+            'id' => $villes->getId(),
+            'nomVille' => $villes->getNomVille()
+        ]);
+    }
+
     #[Route('/new', name: 'app_villes_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
