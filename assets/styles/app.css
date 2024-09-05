@@ -112,6 +112,10 @@ nav li {
 }
 
 
+.form-filtre{
+    width: 40%;
+}
+
 /*
 .sortirLogo {
     position: relative;
@@ -119,6 +123,18 @@ nav li {
     top: 20px; left:40px;
 }
  */
+
+.button-vert {
+    background-color:  #1aaa92;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
 
 .divblue {
     background-color : #1aaa92;
@@ -167,6 +183,9 @@ main {
 }
 
 
+.toto{
+    color:darkred;
+}
 
 .pagination{
     margin-bottom: 50px;
