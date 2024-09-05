@@ -16,6 +16,18 @@ class VillesRepository extends ServiceEntityRepository
         parent::__construct($registry, Villes::class);
     }
 
+    public function findIdVille () {
+        $q = $this->createQueryBuilder('s')
+            ->andWhere('s.Etat <= 6 ')
+//            ->andWhere('s.site = :siteId ')
+//            ->setParameter(':siteId', $siteId)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery();
+
+    }
+
     //    /**
     //     * @return Villes[] Returns an array of Villes objects
     //     */

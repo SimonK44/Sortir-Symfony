@@ -81,57 +81,51 @@ setTimeout(function() {
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
                 .then(response => response.json())
                 .then(data => {
-                    fetch()
+
                     const address = data.address;
                     const ville = address.city || address.town || address.village || '';
                     let selectVille = document.getElementById('lieux_ville');
-                    let villeTrouvee = false;
                     const options = selectVille.options;
+                    let option;
 
+                    let control = selectVille.tomselect;
+
+                    fetch(`/villes/details/${ville}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                let idVille = data.id;
+                                let option = {
+                                    value: idVille,
+                                    text: ville
+                                };
+                                control.addOption(option);
+                                control.setValue(option.value);
+                            } else {
+                                alert('Nom de ville non trouvée');
+                            }
+                        });
+                    
                     // Affiche les informations dans le formulaire
                     document.getElementById('lieux_rue').value = address.road || 'N/A';
                     document.getElementById('lieux_latitude').value = lat || 'N/A';
                     document.getElementById('lieux_longitude').value = lng || 'N/A';
 
 
-                    // let input = document.getElementById('lieux_ville-ts-control');
-                    // input.autocomplete = true;
-                    // input.innerText = ville;
-
-
-                    // control.disable(true);
-
-                    // let input = document.getElementById('lieux_ville-ts-control');
-
-                    // input.innerText = ville;
-                    // input.ariaExpanded = true;
-
-                    let option = {
-                        value: 0,
-                        text: 'nantes'
-                    };
-
-                    console.log(options[1]);
-                    //recherche du nom de ville dans la liste déroulante et selection si elle existe
-                    for (let i = 0; i < options.length; i++) {
-                        if (options[i].innerText.toLowerCase() === ville.toLowerCase()) {
-                            selectVille.selectedIndex = options[i].index;
-                            villeTrouvee = true;
-                            option = {
-                                value: options[i].value,
-                                text: ville
-                            };
-                            break;
-                        }
-                    }
-
-                    let control = selectVille.tomselect;
-                    control.addOption(option);
-                    control.setValue(option.value);
-
-                    villeTrouvee = true;
-
-
+                    // let villeTrouvee = false;
+                    // //recherche du nom de ville dans la liste déroulante et selection si elle existe
+                    // for (let i = 0; i < options.length; i++) {
+                    //     if (options[i].innerText.toLowerCase() === ville.toLowerCase()) {
+                    //         selectVille.selectedIndex = options[i].index;
+                    //         villeTrouvee = true;
+                    //         option = {
+                    //             value: options[i].value,
+                    //             text: ville
+                    //         };
+                    //         break;
+                    //     }
+                    // }
+                    // villeTrouvee = true;
                     // if (!villeTrouvee) {
                     //     // message d'erreur si la ville n'est pas dans la liste
                     //     selectVille.selectedIndex = 0;
@@ -140,9 +134,10 @@ setTimeout(function() {
                     //     // masque le message d'erreur
                     //     document.getElementById('error_message').style.display = 'none';
                     // }
+
                 })
                 .catch(error => console.error('Erreur:', error));
-                });
+            });
     } else {
         map.invalidateSize();
     }

@@ -7,9 +7,12 @@ use App\Form\VillesType;
 use App\Repository\VillesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use function PHPUnit\Framework\throwException;
 
 #[Route('/villes')]
 class VillesController extends AbstractController
@@ -23,13 +26,18 @@ class VillesController extends AbstractController
     }
 
     #[Route('/details/{nomVille}', name: 'app_villes_details', methods: ['GET'])]
-    public function details(Villes $villes, VillesRepository $villesRepository)
+    public function details(Villes $villes)
     {
-        return $this->json([
-            'success' => true,
-            'id' => $villes->getId(),
-            'nomVille' => $villes->getNomVille()
-        ]);
+        if($villes->getId()){
+            return $this->json([
+                'success' => true,
+                'id' => $villes->getId(),
+            ]);
+        } else {
+            return $this->json([
+                'success' => false,
+            ]);
+        }
     }
 
     #[Route('/new', name: 'app_villes_new', methods: ['GET', 'POST'])]
