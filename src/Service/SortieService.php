@@ -14,8 +14,10 @@ class SortieService
         $this->etatsRepository = $etatsRepository;
     }
 
-    public function updateEtatSortie($sortie)
+//    public function updateEtatSortie($sortie)
+    public function postLoad(sorties $sortie)
     {
+
         $now = new DateTime("now");
         $unMoisAuparavant = new DateTime("now");
         $unMoisAuparavant->modify('-1 month');
@@ -62,6 +64,7 @@ class SortieService
     }
 
     public function updateEtatSorties()
+
     {
         $now = new DateTime("now");
         $unMoisAuparavant = new DateTime("now");

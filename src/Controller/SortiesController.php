@@ -13,6 +13,7 @@ use App\Repository\SortiesRepository;
 use App\Repository\UserRepository;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,7 +85,7 @@ class SortiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->updateEtatSortie($sortie);
+//            $sortieService->updateEtatSortie($sortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -103,12 +104,33 @@ class SortiesController extends AbstractController
     #[Route('/{id}', name: 'app_sorties_show', methods: ['GET'])]
     public function show(Sorties $sortie, SortieService $sortieService): Response
     {
+// cas d' une sortie archivée
         if($sortieService->archiveSortie($sortie)){
             $this->addFlash('danger', 'Cette sortie n\'est plus consultable');
             return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
         } else {
+//  recherche si le bouton s' inscrire doit s' afficher
+        $canInscription = true;
+// si la date de cloture est inferieur à la date du jour   => pas d' inscription
+            if ($sortie->getDateCloture() < new \DateTime('now')  ) {
+                $canInscription = false;
+            }
+// si le nbre max de participant attends => pas d' inscription
+            if ($sortie->getNbInscriptionsMax() == count($sortie->getUsers()) ) {
+                $canInscription = false;
+            }
+// recherche si la personne connecté est deja inscrite
+            foreach ($sortie->getUsers() as $participant) {
+                if ($participant == $this->getUser()) {
+                    $canInscription = false;
+                }
+            }
+
+
+
             return $this->render('sorties/show.html.twig', [
                 'sortie' => $sortie,
+                'canInscription' => $canInscription,
             ]);
         }
     }
@@ -129,7 +151,7 @@ class SortiesController extends AbstractController
         $formLieu = $this->createForm(LieuxType::class, $lieu);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->updateEtatSortie($sortie);
+//            $sortieService->updateEtatSortie($sortie);
             $entityManager->flush();
 
             $this->addFlash('success', 'Sortie modifiée !');
