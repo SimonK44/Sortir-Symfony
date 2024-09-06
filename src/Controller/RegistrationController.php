@@ -166,7 +166,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/profil/retour', name : 'app_profil_retour')]
+    #[Route('/profil-retour', name : 'app_profil_retour')]
     public function retourProfil(Request $request, UserRepository $userRepository): Response
     {
         $user = $this->getUser();
