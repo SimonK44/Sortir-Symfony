@@ -135,7 +135,7 @@
                     </tr>
                 {% endfor %}
                 {#  if trouver == 'non' and (sortie.users| length) < sortie.nbInscriptionsMax %#}
-                {%if canInscription %}
+                {%if canInscription and sortie.isPublished %}
                 <tr>
                     <td class="text-sm-start col-md-5"></td>
                     <td class=" text-sm-start col-md-5"></td>
