@@ -18,8 +18,10 @@ class VillesController extends AbstractController
     #[Route('/', name: 'app_villes_index', methods: ['GET'])]
     public function index(VillesRepository $villesRepository): Response
     {
+
+
         return $this->render('villes/index.html.twig', [
-            'villes' => $villesRepository->findAll(),
+            'villes' => $villesRepository->findVille(),
         ]);
     }
 
