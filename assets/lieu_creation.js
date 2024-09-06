@@ -69,9 +69,8 @@ setTimeout(function() {
             // Ajoute un marqueur à l'emplacement du clic
             if (marker) {
                 marker.setLatLng(e.latlng);
-                marker.setIcon(customIcon);
             } else {
-                marker = L.marker(e.latlng, { icon: customIcon }).addTo(map);
+                marker = L.marker(e.latlng).addTo(map);
             }
 
             // Récupère la latitude et la longitude
@@ -82,45 +81,64 @@ setTimeout(function() {
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
                 .then(response => response.json())
                 .then(data => {
+
                     const address = data.address;
                     const ville = address.city || address.town || address.village || '';
                     let selectVille = document.getElementById('lieux_ville');
-                    let villeTrouvee = false;
-
                     const options = selectVille.options;
-                    // Afficher les informations dans le formulaire
+                    let option;
+
+                    let control = selectVille.tomselect;
+
+                    fetch(`/villes/details/${ville}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                let idVille = data.id;
+                                let option = {
+                                    value: idVille,
+                                    text: ville
+                                };
+                                control.addOption(option);
+                                control.setValue(option.value);
+                            } else {
+                                alert('Nom de ville non trouvée');
+                            }
+                        });
+                    
+                    // Affiche les informations dans le formulaire
                     document.getElementById('lieux_rue').value = address.road || 'N/A';
                     document.getElementById('lieux_latitude').value = lat || 'N/A';
                     document.getElementById('lieux_longitude').value = lng || 'N/A';
 
-                    for (let i = 0; i < options.length; i++) {
-                        if (options[i].innerText.toLowerCase() === ville.toLowerCase()) {
-                            selectVille.selectedIndex = options[i].index;
-                            villeTrouvee = true;
-                            break;
-                        }
-                    }
 
-                    if (!villeTrouvee) {
-                        // message d'erreur si la ville n'est pas dans la liste
-                        selectVille.selectedIndex = 0;
-                        document.getElementById('error_message').style.display = 'block';
-                    } else {
-                        // message d'erreur caché si ville trouvée
-                        document.getElementById('error_message').style.display = 'none';
-                    }
+                    // let villeTrouvee = false;
+                    // //recherche du nom de ville dans la liste déroulante et selection si elle existe
+                    // for (let i = 0; i < options.length; i++) {
+                    //     if (options[i].innerText.toLowerCase() === ville.toLowerCase()) {
+                    //         selectVille.selectedIndex = options[i].index;
+                    //         villeTrouvee = true;
+                    //         option = {
+                    //             value: options[i].value,
+                    //             text: ville
+                    //         };
+                    //         break;
+                    //     }
+                    // }
+                    // villeTrouvee = true;
+                    // if (!villeTrouvee) {
+                    //     // message d'erreur si la ville n'est pas dans la liste
+                    //     selectVille.selectedIndex = 0;
+                    //     document.getElementById('error_message').style.display = 'block';
+                    // } else {
+                    //     // masque le message d'erreur
+                    //     document.getElementById('error_message').style.display = 'none';
+                    // }
+
                 })
                 .catch(error => console.error('Erreur:', error));
-                });
+            });
     } else {
         map.invalidateSize();
     }
-}, 2000);
-
-// icône perso
-const customIcon = L.icon({
-    iconUrl: '../sortirLogo.png',
-    iconSize: [38, 38], // [largeur, hauteur]
-    iconAnchor: [19, 38], // base de l'icône
-    popupAnchor: [0, -38] // Point d'ancrage du popup par rapport à l'icône
-});
+}, 2500);

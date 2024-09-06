@@ -16,12 +16,11 @@ class VillesAutocompleteField extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Villes::class,
-            'placeholder' => 'Choose a Villes',
-             'choice_label' => 'nomVille',
-
+            'placeholder' => ' -- Choisissez une ville -- ',
+            'choice_label' => 'nomVille',
             // choose which fields to use in the search
             // if not passed, *all* fields are used
-             'searchable_fields' => ['nomVille'],
+            'searchable_fields' => ['nomVille'],
 
             // 'security' => 'ROLE_SOMETHING',
         ]);

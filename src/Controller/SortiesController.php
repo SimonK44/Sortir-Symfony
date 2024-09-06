@@ -28,7 +28,6 @@ class SortiesController extends AbstractController
                           int $page
     ): Response
     {
-
         $filtre = [];
 
         // gestion de la pagination

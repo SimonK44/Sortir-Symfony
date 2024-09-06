@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use App\EntityListener\SortieListener;
 use App\Repository\SortiesRepository;
-use App\Service\SortieService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\LessThan;
 
 #[ORM\Entity(repositoryClass: SortiesRepository::class)]
-#[ORM\EntityListeners([SortieService::class])]
+#[ORM\EntityListeners([SortieListener::class])]
 class Sorties
 {
     #[ORM\Id]
@@ -26,7 +26,7 @@ class Sorties
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-//    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
+    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(nullable: true)]
@@ -36,7 +36,7 @@ class Sorties
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[LessThan(propertyPath: 'dateDebut', message: 'Postérieur à la date du début de la sortie !')]
-//    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
+    #[GreaterThanOrEqual('today', message: 'Antérieur à la date du jour !')]
     private ?\DateTimeInterface $dateCloture = null;
 
     #[ORM\Column]
