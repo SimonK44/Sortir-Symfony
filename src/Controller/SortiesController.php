@@ -55,6 +55,8 @@ class SortiesController extends AbstractController
             $filtre['user'] = $this->getUser()->getId();
 
             $sorties = $sortiesRepository->findSortiePaginerAvecFiltre($nbByPage,$offset,$siteId,$filtre);
+            $nbTotal = $sorties->count();
+            var_dump($nbTotal);
         }
 
         $sortieService->updateEtatSorties();
