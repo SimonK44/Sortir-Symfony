@@ -92,7 +92,7 @@ nav li {
 }
 
 .img_main{
-    height: 280px;
+    width: 100%;
 }
 
 .login{
@@ -133,6 +133,7 @@ nav li {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    border-radius: 12px;
 }
 
 
@@ -161,12 +162,17 @@ main {
     margin-bottom: 3rem;
 }
 
+.taill_li{
+    font-size: 2rem;
+    color: #6c757d;
+}
 
 
 .modi_li{
     list-style-type: none;
     text-align: center;
 }
+
 
 .eni{
     display: flex;
