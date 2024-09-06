@@ -44,7 +44,10 @@
         </tbody>
     </table>
 
-    <a class="button-vert" href="{{ path('app_profil_modification') }}"> Editer </a>
+    {% if(app.user.id == user.id) %}
+        <a class="button-vert" href="{{ path('app_profil_modification') }}"> Editer </a>
+    {% endif %}
+
     <br>
     <br>
 

@@ -10,9 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use function PHPUnit\Framework\throwException;
 
 #[Route('/villes')]
 class VillesController extends AbstractController
@@ -26,18 +24,25 @@ class VillesController extends AbstractController
     }
 
     #[Route('/details/{nomVille}', name: 'app_villes_details', methods: ['GET'])]
-    public function details(Villes $villes)
+    public function details(string $nomVille, VillesRepository $villesRepository): JsonResponse
     {
-        if($villes->getId()){
-            return $this->json([
-                'success' => true,
-                'id' => $villes->getId(),
-            ]);
-        } else {
+
+        $villeFormat1 = str_ireplace('-', ' ', $nomVille);
+        $villeFormat2 = str_ireplace('sainte ', 'ste ', $villeFormat1);
+        $villeFormat3 = str_ireplace('saint ', 'st ', $villeFormat2);
+        $ville = $villesRepository->findOneBy(['nomVille' => $villeFormat3]);
+
+        if (!$ville) {
             return $this->json([
                 'success' => false,
             ]);
         }
+
+        return $this->json([
+            'success' => true,
+            'id' => $ville->getId(),
+        ]);
+
     }
 
     #[Route('/new', name: 'app_villes_new', methods: ['GET', 'POST'])]
@@ -89,7 +94,7 @@ class VillesController extends AbstractController
     #[Route('/{id}', name: 'app_villes_delete', methods: ['POST'])]
     public function delete(Request $request, Villes $ville, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ville->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($ville);
             $entityManager->flush();
         }
