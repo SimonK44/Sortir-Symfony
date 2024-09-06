@@ -141,6 +141,8 @@ nav li {
     height: 5px;
 }
 
+
+
 /*
 ==========================================
 ============== main ====================
@@ -151,6 +153,25 @@ main {
     /*display : table;*/
     margin: auto;
     max-width: 80%;
+}
+
+
+.bienvenue{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+
+
+.modi_li{
+    list-style-type: none;
+    text-align: center;
+}
+
+.eni{
+    display: flex;
+    justify-content: space-around;
+
 }
 
 .table td {
