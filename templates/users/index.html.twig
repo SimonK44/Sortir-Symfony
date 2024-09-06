@@ -22,7 +22,7 @@
             <!-- Si rôle == utilisateur -->
             <th>Statut</th>
             <!-- Si actif, afficher un bouton "Désactiver", sinon afficher "Activer" -->
-            <th>Suppression</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -74,8 +74,13 @@
 
                 <!-- Lien pour supprimer l'utilisateur -->
                 <td>
-                  Supprimer
+                {% if user.actif %}
+                     <a class="btn btn-danger btn-sm" href="{{ path('app_users_delete',{'id':user.id}) }}">Activer</a>
+                {% else %}
+                     <a class="btn btn-danger btn-sm" href="{{ path('app_users_delete',{'id':user.id}) }}">Désactiver</a>
+                {% endif %}
                 </td>
+
             </tr>
         {% endfor %}
         </tbody>
