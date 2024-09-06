@@ -27,7 +27,10 @@ class VillesController extends AbstractController
     public function details(string $nomVille, VillesRepository $villesRepository): JsonResponse
     {
 
-        $ville = $villesRepository->findOneBy(['nomVille' => $nomVille]);
+        $villeFormat1 = str_ireplace('-', ' ', $nomVille);
+        $villeFormat2 = str_ireplace('sainte ', 'ste ', $villeFormat1);
+        $villeFormat3 = str_ireplace('saint ', 'st ', $villeFormat2);
+        $ville = $villesRepository->findOneBy(['nomVille' => $villeFormat3]);
 
         if (!$ville) {
             return $this->json([
