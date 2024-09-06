@@ -30,6 +30,8 @@ services:
             $sortiesRepository: '@App\Repository\SortiesRepository'
         tags:
             - {name: 'doctrine.orm.entity_listener', event: 'postLoad'}
+            - {name: 'doctrine.orm.entity_listener', event: 'prePersist'}
+            - {name: 'doctrine.orm.entity_listener', event: 'preUpdate'}
 
     App\Service\FileUploader:
         arguments:

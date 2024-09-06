@@ -102,9 +102,16 @@ setTimeout(function() {
                                 control.addOption(option);
                                 control.setValue(option.value);
                             } else {
-                                alert('Nom de ville non trouvée');
+                                alert('Ville non trouvée')
+                                option = {
+                                    value: '',
+                                    text: '',
+                                };
+                                control.addOption(option);
+                                control.setValue(option.value);
                             }
-                        });
+                        })
+                        .catch(error => console.error('Erreur:', error));
                     
                     // Affiche les informations dans le formulaire
                     document.getElementById('lieux_rue').value = address.road || 'N/A';
