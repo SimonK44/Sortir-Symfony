@@ -28,7 +28,7 @@
                          {%if is_granted('ROLE_ADMIN') %}
                          <li class="login_authenticated"><a href="{{ path('app_users') }}">Utilisateurs</a></li>
                          {% endif %}
-                         <li class="login_authenticated"><a href="{{ path('app_profil') }}"> Profil {{ app.user.pseudo }}</a></li>
+                         <li class="login_authenticated"><a href="{{ path('app_profil') }}"> Profil de {{ app.user.pseudo }}</a></li>
                          <li class="login_authenticated"><a href="{{ path('app_logout') }}"> Déconnecter</a></li>
                          {% else %}
                             <!-- <img class="gif2"  src="{{  asset('images/clavier.gif') }}">

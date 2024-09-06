@@ -41,7 +41,7 @@ class SortiesRepository extends ServiceEntityRepository
     public function findSortiePaginer(int $limit, int $offset,int $siteId): Paginator
     {
         $q = $this->createQueryBuilder('s')
-            ->andWhere('s.Etat <= 6 ')
+            ->andWhere('s.Etat <= 3 ')
 //            ->andWhere('s.site = :siteId ')
 //            ->setParameter(':siteId', $siteId)
             ->setMaxResults($limit)

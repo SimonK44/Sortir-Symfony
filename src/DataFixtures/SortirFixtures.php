@@ -53,7 +53,7 @@ class SortirFixtures extends Fixture
     {
         $faker = Factory::create('fr-FR');
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $sortie = new Sorties();
 
             $etatr = $this->etatsRepository->find(mt_rand(1,7));
