@@ -129,7 +129,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/profil/{id}', name : 'app_profil_participant', methods: ['GET'])]
+    #[Route('/profil/{id}', name : 'app_profil_participant', methods: ['GET'], requirements: ['id' => '＼d+'])]
     public function participantProfil(Request $request, UserRepository $userRepository, User $user): Response
     {
         $userId = $userRepository->findByID($user->getId());
