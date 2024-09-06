@@ -18,33 +18,30 @@ class FiltreType extends AbstractType
     {
         $builder
             ->add('nom', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
-            'label' => 'Nom de la sortie contient : ',
-                'attr'=> ['class' => 'form-filtre'],
+            'label' => 'Nom de la sortie',
             'required' => false
             ])
             ->add('dateDebut', DateTimeType::class, [
                 'required' => false,
-                'label' => 'Entre : ',
+                'label' => 'Entre',
                 'widget' => 'single_text',
-                 'attr'=> ['class' => 'form-filtre'],
             ])
             ->add('dateFin', DateTimeType::class, [
                 'required' => false,
-                'label' => 'Et : ',
+                'label' => 'Et',
                 'widget' => 'single_text',
-                'attr'=> ['class' => 'form-filtre'],
             ])
             ->add('CheckOrga', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sortie où je suis organisateur/trice'
+                'label' => 'Je suis organisateur/trice'
                 ])
             ->add('CheckInscript', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sortie où je suis inscrit/e'
+                'label' => 'Je suis inscrit/e'
             ])
             ->add('CheckPasInscript', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sortie où je ne suis pas inscrit/e'
+                'label' => 'Je ne suis pas inscrit/e'
             ])
             ->add('CheckPasse', CheckboxType::class, [
                 'required' => false,
@@ -53,7 +50,7 @@ class FiltreType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => 'Rechercher',
                 'attr'=> [
-                    'class' => 'button-vert']
+                    'class' => 'button_filtre']
             ])
         ;
     }

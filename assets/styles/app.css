@@ -174,6 +174,7 @@ main {
 }
 
 
+
 .eni{
     display: flex;
     justify-content: space-around;
@@ -236,11 +237,72 @@ main {
 .text_sortie{
     line-height:2rem
 }
-/*
-==========================================
-============== footer  ====================
-==========================================
-*/
+
+/* login     */
+.modif-width{
+    width: 35%;
+}
+
+/* sortie     */
+.filter-container {
+    border: #0f6674 1px;
+    display: flex;
+    justify-content: left; /* Sépare les deux colonnes */
+    align-items: flex-start; /* Aligne en haut les deux colonnes */
+    margin-top: 15px;
+    border-bottom: #6c757d;
+}
+
+.gauch {
+    flex: 0.7; /* Colonne gauche prend plus de place */
+    margin-right: 5px;
+}
+.sortie {
+    flex: 0.5; /* Colonne droite plus petite */
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Espacement entre les cases à cocher */
+    margin-right: 25rem;
+}
+
+.filter-container div {
+    /* border: 1px solid #ccc; *//* Optionnel : bordures pour mieux visualiser */
+    padding: -5px;
+    border-radius: 5px;
+
+}
+
+
+.button_filtre{
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-left: -6rem;
+    padding: 10px 20px;
+    background-color: #1aaa92;
+    margin-top: 0.4rem;
+}
+
+.button-right{
+    float: right;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.h2-Sortie{
+    margin-top: 4rem;
+}
+
+
+    /*
+    ==========================================
+    ============== footer  ====================
+    ==========================================
+    */
 
 
 
